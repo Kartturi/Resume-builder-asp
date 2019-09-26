@@ -1,0 +1,305 @@
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit;
+}
+
+html {
+  box-sizing: border-box;
+  font-size: 62.5%;
+  overflow: auto;
+  height: 100%;
+}
+
+ul {
+  list-style-type: none;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Edit start */
+
+.edit-container {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: row;
+}
+
+.edit-preview {
+  width: 70%;
+
+  height: 100%;
+  background: rgb(228, 233, 228);
+  overflow: auto;
+}
+
+.edit-preview__container {
+  max-width: 210mm;
+  min-height: 290mm;
+  margin: 30px auto;
+}
+
+/* Edit end */
+
+/*edit-input*/
+.edit-input {
+  width: 30%;
+  height: 100%;
+  background: green;
+  overflow-x: auto;
+}
+
+.edit-input__head {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.edit-input__head_icon {
+  font-size: 20px;
+  margin-right: 15px;
+  cursor: pointer;
+  color: black;
+}
+
+.edit-input__head_icon:hover {
+  color: blue;
+}
+
+.edit-input h1 {
+  margin: 30px 0px 30px 0px;
+  font-size: 24px;
+}
+
+.edit-input h4 {
+  font-size: 16px;
+  margin-bottom: 15px;
+}
+.edit-input__section {
+  box-sizing: border-box;
+  width: 95%;
+  padding: 10px 0px 10px 0px;
+  margin: 30px auto;
+}
+
+.edit-input__title {
+  background: green;
+  outline: none;
+  border: none;
+  font-size: 18px;
+  cursor: text;
+}
+
+.edit-input input,
+.edit-input textarea {
+  display: block;
+  margin: 0 auto;
+  margin-bottom: 15px;
+  padding: 15px;
+  width: 80%;
+}
+
+.edit-input__button {
+  font-size: 24px;
+  margin: 10px;
+  padding: 5px 10px 5px 10px;
+  border: none;
+  color: white;
+}
+
+.edit-input__button_add {
+  background-color: blue;
+}
+.edit-input__button_minus {
+  background-color: red;
+}
+
+.edit-input select {
+  width: 80%;
+  display: block;
+  margin: 0 auto;
+  margin-bottom: 15px;
+  padding: 15px;
+  width: 80%;
+}
+
+.edit-input select[option] {
+  cursor: pointer;
+}
+
+.edit-input__work ul li {
+  box-sizing: border-box;
+  width: 95%;
+  margin: 0 auto;
+  margin-bottom: 15px;
+  border: 1px solid white;
+  list-style-type: none;
+}
+
+.edit-input__skills li {
+  margin-top: 10px;
+}
+
+.edit-input__skills li {
+  border: 1px solid white;
+}
+
+/*edit-input end*/
+
+/*dashboard*/
+
+.dashboard {
+  position: relative;
+  height: 100vh;
+  width: 100%;
+}
+
+.dashboard h1 {
+  margin-top: 30px;
+  font-size: 24px;
+}
+
+.dashboard-resumes {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  width: 100%;
+  overflow-x: auto;
+}
+
+.dashboard-resumes__container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+}
+
+.dashboard-resumes__section {
+  height: 300px;
+  min-width: 250px;
+  margin-right: 15px;
+  margin-left: 15px;
+  margin-bottom: 30px;
+  background-color: white;
+  border-radius: 10px;
+  border: 1px solid black;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+.dashboard-resumes__section_container {
+  margin-top: 30px;
+  width: 95%;
+  display: flex;
+  flex-direction: row;
+  overflow-x: auto;
+  box-sizing: border-box;
+  padding: 10px;
+}
+.dashboard-resumes__section * {
+  text-align: center;
+  width: 90%;
+  border: none;
+  outline: none;
+  background-color: white;
+  font-size: 18px;
+  text-decoration: none;
+  color: black;
+  cursor: pointer;
+  margin: 0 auto;
+}
+
+.dashboard-resumes__section input,
+.dashboard-resumes__section select {
+  border: 2px solid lightblue;
+  box-sizing: border-box;
+  margin: 0 auto;
+  width: 90%;
+  padding: 10px 0px 10px 0px;
+}
+
+.dashboard-resumes__section_name {
+  width: 100%;
+  background-color: white;
+  cursor: text;
+}
+
+.dashboard-resumes__add_container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin-left: 15px;
+}
+
+.dashboard-resumes__add_container h1 {
+  margin-bottom: 30px;
+}
+
+.dashboard-resumes__add {
+  font-size: 48px;
+  cursor: pointer;
+}
+
+.dashboard-resumes__add:hover {
+  color: blue;
+}
+
+/*dashboard end*/
+
+/*Preview */
+.preview {
+  background: rgb(154, 156, 154);
+}
+
+.preview-container {
+  padding-top: 30px;
+  padding-bottom: 30px;
+}
+
+.preview__download {
+  padding-top: 30px;
+}
+
+.preview__download select {
+  margin-right: 30px;
+  padding: 10px;
+  font-size: 20px;
+  border-radius: 10px;
+  outline: none;
+  cursor: pointer;
+}
+
+.preview__download button {
+  font-size: 20px;
+  border: none;
+  outline: none;
+  padding: 10px;
+  background-color: green;
+  color: white;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.preview__download button:hover {
+  background-color: rgb(11, 117, 11);
+}
+
+/*Preview end*/
