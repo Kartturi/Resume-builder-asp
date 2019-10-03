@@ -8,7 +8,6 @@ namespace ResumeBuilder.Models
     {
         public ResumeBuilderContext()
         {
-            
         }
 
         public ResumeBuilderContext(DbContextOptions<ResumeBuilderContext> options)
@@ -19,6 +18,7 @@ namespace ResumeBuilder.Models
         public virtual DbSet<Links> Links { get; set; }
         public virtual DbSet<ResumeData> ResumeData { get; set; }
         public virtual DbSet<UserData> UserData { get; set; }
+        public virtual DbSet<WorkData> WorkData { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -26,7 +26,6 @@ namespace ResumeBuilder.Models
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
                 optionsBuilder.UseSqlServer("Data Source=DESKTOP-VBDBMRL\\SQLEXPRESS;Initial Catalog=ResumeBuilder;Integrated Security=True");
-                     
             }
         }
 
@@ -50,7 +49,8 @@ namespace ResumeBuilder.Models
                 entity.HasOne(d => d.Resume)
                     .WithMany(p => p.Links)
                     .HasForeignKey(d => d.ResumeId)
-                    .HasConstraintName("FK_links_resumeData");
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_links_resumeData1");
             });
 
             modelBuilder.Entity<ResumeData>(entity =>
@@ -112,6 +112,43 @@ namespace ResumeBuilder.Models
                     .HasColumnName("userName")
                     .HasMaxLength(10)
                     .IsFixedLength();
+            });
+
+            modelBuilder.Entity<WorkData>(entity =>
+            {
+                entity.HasKey(e => e.WorkId);
+
+                entity.ToTable("workData");
+
+                entity.Property(e => e.WorkId).HasColumnName("workId");
+
+                entity.Property(e => e.Company)
+                    .HasColumnName("company")
+                    .HasMaxLength(255)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Description)
+                    .HasColumnName("description")
+                    .HasMaxLength(255)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Position)
+                    .HasColumnName("position")
+                    .HasMaxLength(255)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.ResumeId).HasColumnName("resumeId");
+
+                entity.Property(e => e.Time)
+                    .HasColumnName("time")
+                    .HasMaxLength(255)
+                    .IsUnicode(false);
+
+                entity.HasOne(d => d.Resume)
+                    .WithMany(p => p.WorkData)
+                    .HasForeignKey(d => d.ResumeId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_workData_resumeData");
             });
 
             OnModelCreatingPartial(modelBuilder);

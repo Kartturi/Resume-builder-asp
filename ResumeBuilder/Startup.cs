@@ -26,6 +26,10 @@ namespace ResumeBuilder
             
             services.AddControllersWithViews();
             services.AddTransient<ResumeBuilderContext, ResumeBuilderContext>();
+            /*services.AddMvc()
+                .AddJsonOptions(
+                options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+                );*/
             /*services.AddDbContext<ResumeBuilderContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("ResumeDatabase")));*/

@@ -25,23 +25,12 @@ namespace ResumeBuilder.Controllers
         public IActionResult testGet()
         {
             var resumes = _context.ResumeData.Where(s => s.ResumeId == 30)
-                .Include(s => s.Links).ThenInclude(s => s.Link).ToList();
+                .Include(s => s.Links)
+                .Include(w => w.WorkData)
+                .ToList();
              
             return Ok(resumes);
             
-            
-
-
-
-            //foreach (var link in resumes.Links)
-            //{
-            //    _context.Entry(link)
-            //        .Reference(s => s.Link)
-            //        .Load();
-            //}
-            
-
-
         }
 
 

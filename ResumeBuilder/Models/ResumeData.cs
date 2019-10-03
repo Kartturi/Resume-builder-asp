@@ -8,6 +8,7 @@ namespace ResumeBuilder.Models
         public ResumeData()
         {
             Links = new HashSet<Links>();
+            WorkData = new HashSet<WorkData>();
         }
 
         public int ResumeId { get; set; }
@@ -21,5 +22,6 @@ namespace ResumeBuilder.Models
 
         public virtual UserData User { get; set; }
         public virtual ICollection<Links> Links { get; set; }
+        public virtual ICollection<WorkData> WorkData { get; set; }
     }
 }
