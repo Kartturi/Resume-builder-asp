@@ -1,0 +1,4 @@
+dotnet ef dbcontext scaffold "Data Source=DESKTOP-VBDBMRL\SQLEXPRESS;Initial Catalog=ResumeBuilder;Integrated Security=True" Microsoft.EntityFrameworkCore.SqlServer -o Model
+
+
+Data Source=DESKTOP-VBDBMRL\SQLEXPRESS;Initial Catalog=ResumeBuilder;Integrated Security=True

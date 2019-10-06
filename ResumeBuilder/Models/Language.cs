@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Text.Json.Serialization;
 namespace ResumeBuilder.Models
 {
-    public partial class Links
+    public partial class Language
     {
-        public int LinkId { get; set; }
-        public string Link { get; set; }
+        public int LanguageId { get; set; }
+        public string Language1 { get; set; }
+        public string Level { get; set; }
         public int ResumeId { get; set; }
         [JsonIgnore]
         public virtual ResumeData Resume { get; set; }

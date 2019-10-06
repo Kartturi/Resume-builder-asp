@@ -27,6 +27,11 @@ namespace ResumeBuilder.Controllers
             var resumes = _context.ResumeData.Where(s => s.ResumeId == 30)
                 .Include(s => s.Links)
                 .Include(w => w.WorkData)
+                .Include(w => w.Education)
+                .Include(w => w.Language)
+                .Include(w => w.Projects)
+                .Include(w => w.Recommends)
+                .Include(w => w.Skills)
                 .ToList();
              
             return Ok(resumes);
