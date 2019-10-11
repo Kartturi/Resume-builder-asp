@@ -87,12 +87,11 @@ namespace ResumeBuilder.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPost]
-        public async Task<ActionResult<UserData>> PostUserData(UserData userData)
+        public  ActionResult<UserData> PostUserData(UserData userData)
         {
-            _context.UserData.Add(userData);
-            await _context.SaveChangesAsync();
+            
 
-            return CreatedAtAction("GetUserData", new { id = userData.UserId }, userData);
+            return CreatedAtAction("GetUserData", userData);
         }
 
         // DELETE: api/UserDatas/5

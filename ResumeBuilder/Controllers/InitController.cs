@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -22,16 +23,19 @@ namespace ResumeBuilder.Controllers
             _context = context;
         }
 
-        //api/init/test
-        [HttpGet]
+        //api/init
+        [HttpPost]
         public IActionResult initData()
         {
-            var resumes = _context.ResumeData.Where(s => s.ResumeId == 30)
-                .Include(s => s.Links)
-                .Include(w => w.WorkData)
-                .ToList();
+            //get json data
+            using (var reader = new StreamReader(Request.Body))
+            {
+                
+                return Ok("");
+                // Do something
+            }
 
-            return Ok(resumes);
+            
 
         }
 

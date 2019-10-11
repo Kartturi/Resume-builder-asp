@@ -62,7 +62,7 @@ namespace ResumeBuilder.Models
                 entity.HasOne(d => d.Resume)
                     .WithMany(p => p.Education)
                     .HasForeignKey(d => d.ResumeId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("FK_education_resumeData");
             });
 
@@ -87,7 +87,7 @@ namespace ResumeBuilder.Models
                 entity.HasOne(d => d.Resume)
                     .WithMany(p => p.Language)
                     .HasForeignKey(d => d.ResumeId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("FK_language_resumeData");
             });
 
@@ -109,7 +109,7 @@ namespace ResumeBuilder.Models
                 entity.HasOne(d => d.Resume)
                     .WithMany(p => p.Links)
                     .HasForeignKey(d => d.ResumeId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("FK_links_resumeData1");
             });
 
@@ -139,7 +139,7 @@ namespace ResumeBuilder.Models
                 entity.HasOne(d => d.Resume)
                     .WithMany(p => p.Projects)
                     .HasForeignKey(d => d.ResumeId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("FK_projects_resumeData");
             });
 
@@ -169,14 +169,13 @@ namespace ResumeBuilder.Models
                 entity.HasOne(d => d.Resume)
                     .WithMany(p => p.Recommends)
                     .HasForeignKey(d => d.ResumeId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("FK_recommends_resumeData");
             });
 
             modelBuilder.Entity<ResumeData>(entity =>
             {
                 entity.HasKey(e => e.ResumeId);
-
                 entity.ToTable("resumeData");
 
                 entity.Property(e => e.ResumeId).HasColumnName("resumeId");
@@ -246,7 +245,7 @@ namespace ResumeBuilder.Models
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.ResumeData)
                     .HasForeignKey(d => d.UserId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("FK_resumeData_userData");
             });
 
@@ -268,7 +267,7 @@ namespace ResumeBuilder.Models
                 entity.HasOne(d => d.Resume)
                     .WithMany(p => p.Skills)
                     .HasForeignKey(d => d.ResumeId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("FK_skills_resumeData");
             });
 
@@ -319,7 +318,7 @@ namespace ResumeBuilder.Models
                 entity.HasOne(d => d.Resume)
                     .WithMany(p => p.WorkData)
                     .HasForeignKey(d => d.ResumeId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("FK_workData_resumeData");
             });
 
