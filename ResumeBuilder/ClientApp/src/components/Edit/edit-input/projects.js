@@ -44,6 +44,7 @@ const Projects = props => {
         />
         <h4>Description</h4>
         <textarea
+          rows="10"
           type="text"
           name="desc"
           value={item.desc}

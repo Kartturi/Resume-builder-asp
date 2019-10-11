@@ -54,7 +54,9 @@ const Preview = props => {
   return (
     <div className="preview">
       <div className="preview__download">
-        <style>{`@media print {.preview__download{display: none;} .preview {background:white}}`}</style>
+        <style>{`@media print {.preview__download{display: none; padding-top:0px;} .preview {background:white;} .preview-container {
+          paddig-top:0px; padding-bottom:0px;
+        }}`}</style>
         <Link to="/">
           <FontAwesomeIcon
             className="edit-input__head_icon"
@@ -64,6 +66,8 @@ const Preview = props => {
         <select name="layout" onChange={changeLayout} value={state.layout}>
           <option value="Turku">Turku</option>
           <option value="Vaasa">Vaasa</option>
+          <option value="Rauma">Rauma</option>
+          <option value="Pori">Pori</option>
         </select>
         <button onClick={donwloadResume}>Download Pdf</button>
       </div>

@@ -3,7 +3,6 @@ import { useStateValue } from "../state";
 import { Link } from "react-router-dom";
 import initialState from "../initialState";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import axios from "axios";
 
 //utils
 import { getResumesLS, setResumesLS } from "../utils/getSetResumes";
@@ -12,11 +11,7 @@ const Dashboard = () => {
   const [resumes, setResumes] = useState([]);
   //localstorage resumes
 
-    useEffect(() => {
-
-        axios.get("/test").then(res => {
-            console.log(res);
-        })
+  useEffect(() => {
     const resumesLS = JSON.parse(localStorage.getItem("resumes"));
     if (resumesLS) {
       setResumes(resumesLS);
@@ -102,6 +97,8 @@ const Dashboard = () => {
         >
           <option value="resume1">Turku</option>
           <option value="resume2">Vaasa</option>
+          <option value="resume3">Rauma</option>
+          <option value="resume4">Pori</option>
         </select>
         <input
           onChange={changeResumeName}

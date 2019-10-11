@@ -16,7 +16,11 @@ import {
   faSuitcase,
   faDesktop,
   faGraduationCap,
-  faBullhorn
+  faBullhorn,
+  faPhoneAlt,
+  faEnvelope,
+  faLink,
+  faMapMarkerAlt
 } from "@fortawesome/free-solid-svg-icons";
 import { library } from "@fortawesome/fontawesome-svg-core";
 
@@ -27,7 +31,11 @@ library.add(
   faSuitcase,
   faDesktop,
   faGraduationCap,
-  faBullhorn
+  faBullhorn,
+  faPhoneAlt,
+  faEnvelope,
+  faLink,
+  faMapMarkerAlt
 );
 function App() {
   return (

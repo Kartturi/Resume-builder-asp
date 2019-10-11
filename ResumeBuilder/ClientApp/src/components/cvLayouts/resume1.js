@@ -1,6 +1,7 @@
 import React from "react";
 import { useStateValue } from "../../state";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import ProfilePicture from "../../img/artturi19.png";
 
 const Resume1 = props => {
   const [state] = useStateValue();
@@ -75,6 +76,7 @@ const Resume1 = props => {
       </style>
       <div className="resume1-indent">
         <div className="resume1-head">
+          <img className="resume1-head__img" src={ProfilePicture}></img>
           <h1>{state.name}</h1>
           <p>{state.title}</p>
         </div>
