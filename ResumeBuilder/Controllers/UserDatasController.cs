@@ -41,14 +41,16 @@ namespace ResumeBuilder.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<UserData>> GetUserData(int id)
         {
-            var userData = await _context.UserData.FindAsync(id);
+            var userData = await _context.ResumeData
+                .Where(u => u.UserId == id).Select(p => new { p.ResumeId, p.ResumeName, p.Layout})
+                .ToListAsync();
 
             if (userData == null)
             {
                 return NotFound();
             }
 
-            return userData;
+            return Ok(userData);
         }
 
         // PUT: api/UserDatas/5

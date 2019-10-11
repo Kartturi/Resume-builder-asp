@@ -31,6 +31,8 @@ namespace ResumeBuilder.Models
         public string LanguageTitle { get; set; }
         public string SkillsTitle { get; set; }
 
+        public string Layout { get; set; }
+
         public virtual UserData User { get; set; }
         public virtual ICollection<Education> Education { get; set; }
         public virtual ICollection<Language> Language { get; set; }

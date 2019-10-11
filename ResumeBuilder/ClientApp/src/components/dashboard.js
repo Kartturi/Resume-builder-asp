@@ -11,11 +11,19 @@ const Dashboard = () => {
   const [resumes, setResumes] = useState([]);
   //localstorage resumes
 
-  useEffect(() => {
-    const resumesLS = JSON.parse(localStorage.getItem("resumes"));
-    if (resumesLS) {
-      setResumes(resumesLS);
-    }
+    useEffect(() => {
+        async function fetchData() {
+         const userId = initialState.userId;
+         const getResumeQuery = `https://localhost:44318/api/userdatas/${userId}` 
+         //get resumenames and id-s from database
+            const response = await fetch(getResumeQuery);
+            const resumeIds = await response.json();
+            console.log(resumeIds, "response");
+         setResumes(resumeIds);
+         
+        }
+        fetchData();
+        
   }, []);
 
   const changeResumeName = e => {

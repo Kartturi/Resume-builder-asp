@@ -229,6 +229,10 @@ namespace ResumeBuilder.Models
                     .HasColumnName("skillsTitle")
                     .HasMaxLength(255)
                     .IsUnicode(false);
+                entity.Property(e => e.Layout)
+                    .HasColumnName("layout")
+                    .HasMaxLength(255)
+                    .IsUnicode(false);
 
                 entity.Property(e => e.Title)
                     .HasColumnName("title")
