@@ -8,13 +8,15 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { getResumesLS, setResumesLS } from "../utils/getSetResumes";
 
 const Dashboard = () => {
-  const [resumes, setResumes] = useState([]);
+    const [resumes, setResumes] = useState([]);
+    const [userId, setUserId] = useState(0);
   //localstorage resumes
 
     useEffect(() => {
         async function fetchData() {
-         const userId = initialState.userId;
-         const getResumeQuery = `https://localhost:44318/api/userdatas/${userId}` 
+            const usrID = initialState.userId;
+            setUserId(usrID);
+            const getResumeQuery = `https://localhost:44318/api/userdatas/${usrID}`;
          //get resumenames and id-s from database
             const response = await fetch(getResumeQuery);
             const resumeIds = await response.json();
@@ -39,26 +41,47 @@ const Dashboard = () => {
   };
 
   const changeLayout = e => {
-    const resumeIndex = Number(e.target.dataset.resumeIndex);
-    const resumesLS = JSON.parse(localStorage.getItem("resumes"));
-
-    resumesLS[resumeIndex].layout = e.target.value;
-
-    //save to localhost and component state
-    localStorage.setItem("resumes", JSON.stringify(resumesLS));
-    setResumes(resumesLS);
-    console.log(resumesLS, "from changeResume");
+      const resumeId = Number(e.target.dataset.resumeIndex);
+      
+      async function changeLayout() {
+          const changeLayoutUrl = `https://localhost:44318/api/resumedatas/${resumeId}`;
+          const layoutValue = JSON.stringify({ layout: e.target.value, userId });
+          const response = await fetch(changeLayoutUrl, {
+              method: 'PUT',
+              mode: 'cors', // no-cors, *cors, same-origin
+              cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+              credentials: 'same-origin', // include, *same-origin, omit
+              headers: {
+                  'Content-Type': 'application/json'
+                  // 'Content-Type': 'application/x-www-form-urlencoded',
+              },
+              
+              
+              body: layoutValue // body data type must match "Content-Type" header
+          })
+          const resumeIds = await response.json();
+          setResumes(resumeIds);
+          console.log(resumeIds, "layout");
+      }
+      changeLayout()
+      
   };
 
   const deleteResume = e => {
-    const resumeIndex = e.target.dataset.resumeIndex;
-    const resumeLS = getResumesLS();
+      const resumeIndex = e.target.dataset.resumeIndex;
+      async function deleteResumeFromDb() {
+          const deleteResumeUrl = `https://localhost:44318/api/resumedatas/${resumeIndex}`;
+          const response = await fetch(deleteResumeUrl, {
+              method: "DELETE"
+          });
+          const resumeIds = await response.json();
+          setResumes(resumeIds);
+          
+      }
+      deleteResumeFromDb();
+      
 
-    resumeLS.splice(resumeIndex, 1);
-    //save to localstorage
-    setResumesLS(resumeLS);
-    setResumes(resumeLS);
-    console.log(resumeLS, "from delete");
+    
   };
 
   const duplicateResume = e => {
@@ -91,7 +114,7 @@ const Dashboard = () => {
       >
         <Link to={`/edit?index=${index}`}>Edit</Link>
         <Link to={`/preview?index=${index}`}>Preview</Link>
-        <button onClick={deleteResume} data-resume-index={index}>
+        <button onClick={deleteResume} data-resume-index={item.resumeId}>
           Delete
         </button>
         <button onClick={duplicateResume} data-resume-index={index}>
@@ -99,8 +122,8 @@ const Dashboard = () => {
         </button>
         <select
           name="layout"
-          onChange={changeLayout}
-          data-resume-index={index}
+                onChange={changeLayout}
+                data-resume-index={item.resumeId}
           value={item.layout}
         >
           <option value="resume1">Turku</option>
@@ -118,19 +141,31 @@ const Dashboard = () => {
     );
   });
 
-  const createNewResume = () => {
-    const resumesLS = JSON.parse(localStorage.getItem("resumes"));
-    if (!resumesLS) {
-      //create new resume storage to localhost
-      const newResumeArr = [initialState];
-      localStorage.setItem("resumes", JSON.stringify(newResumeArr));
-      setResumes(newResumeArr);
-    } else {
-      const newResumeList = JSON.parse(localStorage.getItem("resumes"));
-      newResumeList.unshift(initialState);
-      localStorage.setItem("resumes", [JSON.stringify(newResumeList)]);
-      setResumes(newResumeList);
-    }
+    const createNewResume = () => {
+        async function SaveNewResumeToDB() {
+            
+            const initResumeTemplate = JSON.stringify(initialState);
+            const postResumeUrl = `https://localhost:44318/api/resumedatas`;
+            const response = await fetch(postResumeUrl, {
+                method: "POST",
+                mode: "cors",
+                cache: "no-cache",
+                headers: {
+                    "content-Type": "application/json",
+                    "accept": "*/*",
+                    
+                },
+                
+                body: initResumeTemplate
+            })
+            const resumeIds = await response.json();
+            setResumes(resumeIds);
+            console.log(resumeIds, "response plus");
+        }
+        SaveNewResumeToDB();
+      
+
+      
   };
   console.log(resumes);
   return (

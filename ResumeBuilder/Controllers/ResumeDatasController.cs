@@ -68,16 +68,14 @@ namespace ResumeBuilder.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutResumeData(int id, ResumeData resumeData)
         {
-            if (id != resumeData.ResumeId)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(resumeData).State = EntityState.Modified;
-
+            int userId = resumeData.UserId;
+            var resume = _context.ResumeData.First(r => r.ResumeId == id);
+            resume.Layout = resumeData.Layout;
+            
             try
             {
                 await _context.SaveChangesAsync();
+                
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -91,7 +89,10 @@ namespace ResumeBuilder.Controllers
                 }
             }
 
-            return NoContent();
+            var userData = await _context.ResumeData
+                .Where(u => u.UserId == userId).Select(p => new { p.ResumeId, p.ResumeName, p.Layout })
+                .ToListAsync();
+            return Ok(userData);
         }
 
         // POST: api/ResumeDatas
@@ -100,10 +101,14 @@ namespace ResumeBuilder.Controllers
         [HttpPost]
         public async Task<ActionResult<ResumeData>> PostResumeData(ResumeData resumeData)
         {
+            int userId = resumeData.UserId;
             _context.ResumeData.Add(resumeData);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetResumeData", new { id = resumeData.ResumeId }, resumeData);
+            var userData = await _context.ResumeData
+                .Where(u => u.UserId == userId).Select(p => new { p.ResumeId, p.ResumeName, p.Layout })
+                .ToListAsync();
+            return Ok(userData);
         }
 
         // DELETE: api/ResumeDatas/5
@@ -111,6 +116,7 @@ namespace ResumeBuilder.Controllers
         public async Task<ActionResult<ResumeData>> DeleteResumeData(int id)
         {
             var resumeData = await _context.ResumeData.FindAsync(id);
+            int userId = resumeData.UserId;
             if (resumeData == null)
             {
                 return NotFound();
@@ -119,7 +125,11 @@ namespace ResumeBuilder.Controllers
             _context.ResumeData.Remove(resumeData);
             await _context.SaveChangesAsync();
 
-            return resumeData;
+            var userData = await _context.ResumeData
+                .Where(u => u.UserId == userId).Select(p => new { p.ResumeId, p.ResumeName, p.Layout })
+                .ToListAsync();
+            return Ok(userData);
+            
         }
 
         private bool ResumeDataExists(int id)
