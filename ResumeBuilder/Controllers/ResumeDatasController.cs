@@ -68,9 +68,18 @@ namespace ResumeBuilder.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutResumeData(int id, ResumeData resumeData)
         {
+            
             int userId = resumeData.UserId;
             var resume = _context.ResumeData.First(r => r.ResumeId == id);
-            resume.Layout = resumeData.Layout;
+            if(resumeData.Layout != null)
+            {
+                resume.Layout = resumeData.Layout;
+            }
+           if(resumeData.ResumeName != null)
+            {
+                resume.ResumeName = resumeData.ResumeName;
+            }
+            
             
             try
             {

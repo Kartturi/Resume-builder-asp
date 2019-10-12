@@ -28,17 +28,33 @@ const Dashboard = () => {
         
   }, []);
 
-  const changeResumeName = e => {
-    const resumeIndex = Number(e.target.dataset.resumeIndex);
-    const resumesLS = JSON.parse(localStorage.getItem("resumes"));
+    const changeResumeName = e => {
+        const resumeIndex = e.target.dataset.resumeIndex;
+        let resumesCopy = [...resumes];
+        resumesCopy[resumeIndex].resumeName = e.target.value;
+        setResumes(resumesCopy);
+        console.log(e.target);
+    };
+    const saveResumeNameToDb = async (e) => {
+        const resumeId = resumes[e.target.dataset.resumeIndex].resumeId;
+        const changeResumeUrl = `https://localhost:44318/api/resumedatas/${resumeId}`;
+        const resumeNameValue = JSON.stringify({ resumeName: e.target.value, userId });
+        const response = await fetch(changeResumeUrl, {
+            method: 'PUT',
+            mode: 'cors', // no-cors, *cors, same-origin
+            cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+            credentials: 'same-origin', // include, *same-origin, omit
+            headers: {
+                'Content-Type': 'application/json'
+                // 'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: resumeNameValue // body data type must match "Content-Type" header
+        })
+        const resumeIds = await response.json();
+        setResumes(resumeIds);
+        
 
-    resumesLS[resumeIndex].resumeName = e.target.value;
-
-    //save to localhost and component state
-    localStorage.setItem("resumes", JSON.stringify(resumesLS));
-    setResumes(resumesLS);
-    console.log(resumesLS, "from changeResume");
-  };
+    }
 
   const changeLayout = e => {
       const resumeId = Number(e.target.dataset.resumeIndex);
@@ -132,7 +148,8 @@ const Dashboard = () => {
           <option value="resume4">Pori</option>
         </select>
         <input
-          onChange={changeResumeName}
+                onChange={changeResumeName}
+                onBlur={saveResumeNameToDb}
           data-resume-index={index}
           className="dashboard-resumes__section_name"
           value={item.resumeName}
@@ -160,7 +177,7 @@ const Dashboard = () => {
             })
             const resumeIds = await response.json();
             setResumes(resumeIds);
-            console.log(resumeIds, "response plus");
+            
         }
         SaveNewResumeToDB();
       
