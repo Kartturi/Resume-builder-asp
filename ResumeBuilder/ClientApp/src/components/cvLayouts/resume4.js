@@ -7,14 +7,14 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 const Resume4 = props => {
   const [state] = useStateValue();
 
-  const WorkListItem = state.work.map((item, index) => {
+  const WorkListItem = state.workData.map((item, index) => {
     return (
       <li key={index}>
         <h3>
           {item.position} <span>{item.time}</span>
         </h3>
         <h3> {item.company}</h3>
-        <p className="resume3-text">{item.desc}</p>
+        <p className="resume3-text">{item.description}</p>
       </li>
     );
   });
@@ -24,7 +24,7 @@ const Resume4 = props => {
       <li key={index}>
         <h3>{item.school + " "}</h3>
         <p>{item.time}</p>
-        <p className="resume3-text">{item.desc}</p>
+            <p className="resume3-text">{item.description}</p>
       </li>
     );
   });
@@ -33,7 +33,7 @@ const Resume4 = props => {
     return (
       <li key={index}>
         <p>
-          {item.language} <span>{item.level}</span>
+          {item.name} <span>{item.level}</span>
         </p>
       </li>
     );
@@ -55,18 +55,18 @@ const Resume4 = props => {
           {item.name}, <span>{item.time}</span>
         </h3>
 
-        <p className="resume3-text">{item.desc}</p>
+            <p className="resume3-text">{item.description}</p>
       </li>
     );
   });
 
-  const linkListItem = state.link.map((item, index) => {
+  const linkListItem = state.links.map((item, index) => {
     return (
       <p key={index}>
         <span>
           <FontAwesomeIcon icon="link" />
         </span>
-        {item}
+        {item.name}
       </p>
     );
   });

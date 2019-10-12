@@ -3,22 +3,22 @@ import { useStateValue } from "../../state";
 const Resume2 = props => {
   const [state] = useStateValue();
 
-  const ListItem = state.link.map((item, index) => {
+  const ListItem = state.links.map((item, index) => {
     return (
       <li key={index}>
-        <p>{item}</p>
+        <p>{item.name}</p>
       </li>
     );
   });
 
-  const WorkListItem = state.work.map((item, index) => {
+  const WorkListItem = state.workData.map((item, index) => {
     return (
       <li key={index}>
         <h3>
           {item.position} <span>{item.time}</span>
         </h3>
         <h3> {item.company}</h3>
-        <p className="resume2-text">{item.desc}</p>
+        <p className="resume2-text">{item.description}</p>
       </li>
     );
   });
@@ -31,7 +31,7 @@ const Resume2 = props => {
           <span>{item.time}</span>
         </h3>
 
-        <p className="resume2-text">{item.desc}</p>
+        <p className="resume2-text">{item.description}</p>
       </li>
     );
   });
@@ -40,7 +40,7 @@ const Resume2 = props => {
     return (
       <li key={index}>
         <p>
-          {item.language} <span>{item.level}</span>
+          {item.name} <span>{item.level}</span>
         </p>
       </li>
     );

@@ -72,8 +72,8 @@ namespace ResumeBuilder.Models
 
                 entity.Property(e => e.LanguageId).HasColumnName("languageId");
 
-                entity.Property(e => e.Language1)
-                    .HasColumnName("language")
+                entity.Property(e => e.Name)
+                    .HasColumnName("name")
                     .HasMaxLength(255)
                     .IsUnicode(false);
 
@@ -99,8 +99,8 @@ namespace ResumeBuilder.Models
 
                 entity.Property(e => e.LinkId).HasColumnName("linkId");
 
-                entity.Property(e => e.Link)
-                    .HasColumnName("link")
+                entity.Property(e => e.Name)
+                    .HasColumnName("name")
                     .HasMaxLength(1000)
                     .IsUnicode(false);
 
@@ -112,6 +112,8 @@ namespace ResumeBuilder.Models
                     .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("FK_links_resumeData1");
             });
+
+            
 
             modelBuilder.Entity<Projects>(entity =>
             {
@@ -184,6 +186,10 @@ namespace ResumeBuilder.Models
                     .HasColumnName("educationTitle")
                     .HasMaxLength(255)
                     .IsUnicode(false);
+                entity.Property(e => e.LinkTitle)
+                    .HasColumnName("linkTitle")
+                    .HasMaxLength(255)
+                    .IsUnicode(false);
 
                 entity.Property(e => e.Email)
                     .HasColumnName("email")
@@ -243,6 +249,31 @@ namespace ResumeBuilder.Models
 
                 entity.Property(e => e.WorkTitle)
                     .HasColumnName("workTitle")
+                    .HasMaxLength(255)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.HobbiesTitle)
+                    .HasColumnName("hobbiesTitle")
+                    .HasMaxLength(255)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Hobbies)
+                    .HasColumnName("hobbies")
+                    .HasMaxLength(500)
+                    .IsUnicode(false);
+                
+                entity.Property(e => e.Personal)
+                    .HasColumnName("personal")
+                    .HasMaxLength(255)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Phone)
+                    .HasColumnName("phone")
+                    .HasMaxLength(255)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Address)
+                    .HasColumnName("address")
                     .HasMaxLength(255)
                     .IsUnicode(false);
 

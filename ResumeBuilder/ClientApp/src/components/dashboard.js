@@ -4,12 +4,14 @@ import { Link } from "react-router-dom";
 import initialState from "../initialState";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
+
 //utils
 import { getResumesLS, setResumesLS } from "../utils/getSetResumes";
 
 const Dashboard = () => {
     const [resumes, setResumes] = useState([]);
     const [userId, setUserId] = useState(0);
+    const [state, dispatch] = useStateValue();
   //localstorage resumes
 
     useEffect(() => {
@@ -128,8 +130,11 @@ const Dashboard = () => {
         key={index}
         data-resume-index={index}
       >
-        <Link to={`/edit?index=${index}`}>Edit</Link>
-        <Link to={`/preview?index=${index}`}>Preview</Link>
+            <Link to={`/edit?index=${index}`}>Edit</Link>
+            <Link to={`/preview/${item.resumeId}`} 
+                
+            
+            >Preview</Link>
         <button onClick={deleteResume} data-resume-index={item.resumeId}>
           Delete
         </button>
@@ -187,7 +192,8 @@ const Dashboard = () => {
   console.log(resumes);
   return (
     <div className="dashboard">
-      <h1>Dashboard</h1>
+          <h1>Resume Builder</h1>
+          
 
       <div className="dashboard-resumes">
         <div className="dashboard-resumes__container">

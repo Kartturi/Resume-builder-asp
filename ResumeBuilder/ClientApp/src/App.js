@@ -1,6 +1,6 @@
 import React from "react";
 import "./App.css";
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Route, Link, useParams } from "react-router-dom";
 import { StateProvider } from "./state";
 import Reducer from "./Reducers/index";
 import initialState from "./initialState";
@@ -44,7 +44,7 @@ function App() {
         <div className="App">
           <Route exact path="/" component={Dashboard} />
           <Route exact path="/edit" component={Edit} />
-          <Route exact path="/preview" component={Preview} />
+          <Route exact path="/preview/:resumeId" component={Preview} />
         </div>
       </StateProvider>
     </Router>

@@ -52,14 +52,22 @@ namespace ResumeBuilder.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<ResumeData>> GetResumeData(int id)
         {
-            var resumeData = await _context.ResumeData.FindAsync(id);
+            var resumeData = await _context.ResumeData.Where(s => s.ResumeId == id)
+                .Include(s => s.Links)
+                .Include(w => w.WorkData)
+                .Include(w => w.Education)
+                .Include(w => w.Language)
+                .Include(w => w.Projects)
+                .Include(w => w.Recommends)
+                .Include(w => w.Skills)
+                .FirstOrDefaultAsync();
 
             if (resumeData == null)
             {
                 return NotFound();
             }
 
-            return resumeData;
+            return Ok(resumeData);
         }
 
         // PUT: api/ResumeDatas/5

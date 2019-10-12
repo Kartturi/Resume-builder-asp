@@ -14,7 +14,13 @@ const reducer = (state, action) => {
       return {
         ...state,
         name: action.name
-      };
+          };
+
+      case "CHANGE_RESUMEID":
+          return {
+              ...state,
+              resumeId: action.resumeId
+          };
     case "CHANGE_TITLE":
       return {
         ...state,
@@ -64,7 +70,7 @@ const reducer = (state, action) => {
     case "CHANGE_LINK":
       return {
         ...state,
-        link: action.link
+        links: action.link
       };
 
     case "CHANGE_HOBBIESTITLE":

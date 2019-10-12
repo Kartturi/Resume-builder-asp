@@ -6,7 +6,7 @@ namespace ResumeBuilder.Models
     public partial class Language
     {
         public int LanguageId { get; set; }
-        public string Language1 { get; set; }
+        public string Name { get; set; }
         public string Level { get; set; }
         public int ResumeId { get; set; }
         [JsonIgnore]

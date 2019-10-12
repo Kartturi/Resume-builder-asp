@@ -4,18 +4,19 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import ProfilePicture from "../../img/artturi19.png";
 
 const Resume1 = props => {
-  const [state] = useStateValue();
+    const [state] = useStateValue();
+    console.log(state.profile, "from resum1");
 
-  const ListItem = state.link.map((item, index) => {
-    return <li key={index}>{item}</li>;
+    const ListItem = state.links.map((item, index) => {
+        return <li key={index}>{item.name}</li>;
   });
 
-  const WorkListItem = state.work.map((item, index) => {
+  const WorkListItem = state.workData.map((item, index) => {
     return (
       <li key={index}>
-        <h4>{item.position}</h4>
+            <h4>{item.position}, {item.company}</h4>
         <p>{item.time}</p>
-        <p className="resume1-text">{item.desc}</p>
+        <p className="resume1-text">{item.description}</p>
       </li>
     );
   });
@@ -25,7 +26,7 @@ const Resume1 = props => {
       <li key={index}>
         <h4>{item.school}</h4>
         <p>{item.time}</p>
-        <p className="resume1-text">{item.desc}</p>
+            <p className="resume1-text">{item.description}</p>
       </li>
     );
   });
@@ -33,7 +34,7 @@ const Resume1 = props => {
   const LanguageListItem = state.language.map((item, index) => {
     return (
       <li key={index}>
-        <p>{item.language}</p>
+        <p>{item.name}</p>
         <p>{item.level}</p>
       </li>
     );
@@ -52,8 +53,8 @@ const Resume1 = props => {
     return (
       <li key={index}>
         <h4>{item.name}</h4>
-        <p>{item.time}</p>
-        <p className="resume1-text">{item.desc}</p>
+            <p>{item.time}</p>
+            <p className="resume1-text">{item.description}</p>
       </li>
     );
   });
@@ -91,7 +92,7 @@ const Resume1 = props => {
             ) : (
               ""
             )}
-            {state.work[0].position ? (
+            {state.workData[0].position ? (
               <div className="resume1-experience ">
                 <FontAwesomeIcon className="resume1-icons" icon="suitcase" />
                 <h2>{state.workTitle}</h2>
@@ -146,7 +147,7 @@ const Resume1 = props => {
             ) : (
               ""
             )}
-            {state.link[0].length > 0 ? (
+            {state.links[0].name ? (
               <div className="resume1-links">
                 <h2>{state.linkTitle}</h2>
                 <ul>{ListItem}</ul>
@@ -175,7 +176,7 @@ const Resume1 = props => {
               ""
             )}
 
-            {state.language[0].language ? (
+            {state.language[0].name ? (
               <div className="resume1-language">
                 <h2>{state.languageTitle}</h2>
                 <ul>{LanguageListItem}</ul>

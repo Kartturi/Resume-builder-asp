@@ -10,10 +10,12 @@ namespace ResumeBuilder.Models
             Education = new HashSet<Education>();
             Language = new HashSet<Language>();
             Links = new HashSet<Links>();
+            
             Projects = new HashSet<Projects>();
             Recommends = new HashSet<Recommends>();
             Skills = new HashSet<Skills>();
             WorkData = new HashSet<WorkData>();
+            
         }
 
         public int ResumeId { get; set; }
@@ -32,11 +34,21 @@ namespace ResumeBuilder.Models
         public string SkillsTitle { get; set; }
 
         public string Layout { get; set; }
+        public string HobbiesTitle { get; set; }
+        public string Hobbies { get; set; }
+
+        public string Personal { get; set; }
+        public string Phone { get; set; }
+        public string Address { get; set; }
+
+        public string LinkTitle { get; set; }
 
         public virtual UserData User { get; set; }
         public virtual ICollection<Education> Education { get; set; }
         public virtual ICollection<Language> Language { get; set; }
         public virtual ICollection<Links> Links { get; set; }
+
+        
         public virtual ICollection<Projects> Projects { get; set; }
         public virtual ICollection<Recommends> Recommends { get; set; }
         public virtual ICollection<Skills> Skills { get; set; }

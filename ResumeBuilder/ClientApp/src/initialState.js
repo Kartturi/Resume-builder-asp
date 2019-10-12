@@ -1,6 +1,7 @@
 let initialState = {
   userId: 2,
-  layout: "Turku",
+  resumeId: 0,
+  layout: "resume1",
   resumeName: "new resume",
   name: "Artturi Hämäläinen",
   title: "Web-kehittäjä ja digimarkkinoija",
@@ -12,30 +13,30 @@ let initialState = {
   profile:
     "Intohimoinen ja itseoppinnut web-kehittäjä. Koulut käyty tradenomikoulutuksen muodossa. Taidan myös digimarkkinoinnin saloja. ",
   linkTitle: "Links",
-  link: ["kotisivut:www.kartturi.eu"],
+    links: [{ name: "kotisivut:www.kartturi.eu" }],
   hobbiesTitle: "Harrastukset",
   hobbies: "äänikirjat, ulkoilu, futis",
   workTitle: "Työkokemus",
-  work: [
+  workData: [
     {
       company: "NH-toimistologistiikka",
       position: "Markkinointi- ja Web vastaava",
       time: "toukokuu 2017 – heinäkuu 2019",
-      desc:
+      description:
         "Työtehtäviin kuuluu yrityksen verkkosivujen hallinta, verkkosivujen hakukoneoptimointi ja Google Adwords - mainonta. Sivujen konversio-optimointi, sisällön luonti ja kehittäminen ja asiakaspalvelu"
     },
     {
       company: "Hieroglifs inernational",
       position: "Markkinoinnin harjoittelija",
       time: "elokuu 2016 – marraskuu 2016",
-      desc:
+        description:
         "Työtehtävät: Sosiaalisen median hallinta, mainosmateriaalien teko ja jakelu, asiakaspalvelu, asiakastietokantojen päivittäminen, kilpailija-analyysit, markkinointistrategian arviointia, avainsanojen kartoitusta."
     },
     {
       company: "Realia Oy",
       position: "Työntekijä",
       time: "elokuu 2014 – huhtikuu 2019",
-      desc:
+        description:
         "Kotivisujen päivitystä, asiakaspalvelua, toimistokalusteiden asennus- ja siirtoprojektien hoitamista"
     }
   ],
@@ -44,12 +45,12 @@ let initialState = {
     {
       school: "Tradenomi, Vaasan ammattikorkeakoulu",
       time: "elokuu 2019 – elokuu 2019",
-      desc: "Kansainvälisen kaupan tradenomi"
+          description: "Kansainvälisen kaupan tradenomi"
     },
     {
       school: "Erasmus-vaihto , Cracow university of economics",
       time: "elokuu 2019 – elokuu 2019",
-      desc: "Vaihto-oppilasjakso kauniissa Krakovassa markkinoinnin parissa "
+        description: "Vaihto-oppilasjakso kauniissa Krakovassa markkinoinnin parissa "
     }
   ],
   recommendsTitle: "Suositukset",
@@ -70,15 +71,15 @@ let initialState = {
     {
       name: "Thedasgame",
       time: "huhtikuu 2019 alkaen",
-      desc:
+          description:
         "Dasgame opettaa saksan kielen sanoja nopeasti ja tehokkaasti. Tutustu sovellukseen www.thedasgame.com "
     }
   ],
   languageTitle: "Kielet",
   language: [
-    { language: "Suomi", level: "Äidinkieli" },
-    { language: "Englanti", level: "Erinomainen" },
-    { language: "Ruotsi", level: "Tyydyttävä" }
+    { name: "Suomi", level: "Äidinkieli" },
+      { name: "Englanti", level: "Erinomainen" },
+      { name: "Ruotsi", level: "Tyydyttävä" }
   ],
   skillsTitle: "Taidot",
   skills: [
