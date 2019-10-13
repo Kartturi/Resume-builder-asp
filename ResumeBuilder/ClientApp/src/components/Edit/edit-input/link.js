@@ -7,40 +7,50 @@ const Links = props => {
   //   const { useDispatch, saveResumeToLocalStorage } = props.use;
     const { useDispatch, saveResumeToDb } = props.func;
 
-  const changeArrValue = e => {
-      const currentLink = e.target.dataset.listId;
-      const linkId = e.target.dataset.linkId;
-      const newArr = state.links.concat();
-      console.log(linkId, "from changearrvalue");
-      newArr[currentLink] = { linkId: Number(linkId),name: e.target.value, resumeId: state.resumeId };
-      
-    dispatch({
-      type: getActionType(e.target.name),
-      [e.target.name]: newArr
-    });
+  const changeLinkValue = e => {
+      const index = e.target.dataset.listId;
+      const newArr = [...state.links];
+
+      newArr[index].name = e.target.value;
+      console.log(newArr[index].name, "changeArrValue");
+      dispatch({
+          type: getActionType(e.target.name),
+          [e.target.name]: newArr
+      });
     };
 
 
-  const ListItem = state.links.map((item, index) => {
-    return (
-      <li key={index}>
-        <label>
-          <input
-            type="text"
-                    data-list-id={index}
-                    data-link-id={item.linkId}
-            
-                    onBlur={saveResumeToDb}
-            name="links"
-            placeholder="link"
-            value={item.name}
-          />
-        </label>
-      </li>
-    );
-  });
+  
 
-   
+    const updateLink = e => {
+        const linkId = e.target.dataset.linkId;
+        const index = e.target.dataset.listId;
+        const actionType = e.target.name;
+        const updateLinkUrl = `https://localhost:44318/api/links/${state.resumeId}`;
+        const linkData = { name: state.links[index].name, linkId };
+        async function updateLink() {
+            
+            
+            const response = await fetch(updateLinkUrl, {
+                method: 'PUT',
+                mode: 'cors', // no-cors, *cors, same-origin
+                cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+                credentials: 'same-origin', // include, *same-origin, omit
+                headers: {
+                    'Content-Type': 'application/json'
+                    // 'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: JSON.stringify(linkData) // body data type must match "Content-Type" header
+            })
+            const resumeLinks = await response.json();
+
+            dispatch({
+                type: getActionType(actionType),
+                [actionType]: resumeLinks
+            });
+        }
+        updateLink()
+    }
     const addLink = e => {
         console.log(e.target, "wht");
         const actionType = e.target.name;
@@ -97,6 +107,25 @@ const Links = props => {
         deleteLink()
 
     };
+    const ListItem = state.links.map((item, index) => {
+        return (
+            <li key={index}>
+                <label>
+                    <input
+                        type="text"
+                        data-list-id={index}
+                        data-link-id={item.linkId}
+                        onChange={changeLinkValue}
+                        onBlur={updateLink}
+                        name="links"
+                        placeholder="link"
+                        value={item.name}
+                    />
+                </label>
+            </li>
+        );
+    });
+
     console.log(state, "from links");
   return (
     <div className="edit-input__link">

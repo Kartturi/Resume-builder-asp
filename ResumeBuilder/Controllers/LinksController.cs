@@ -47,20 +47,18 @@ namespace ResumeBuilder.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutLinks(int id, Links links)
         {
-            if (id != links.LinkId)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(links).State = EntityState.Modified;
-
+            int resumeId = id;
+            int linkId = links.LinkId;
+            var link = _context.Links.First(l => l.LinkId == linkId);
+            
+            link.Name = links.Name;
             try
             {
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!LinksExists(id))
+                if (!LinksExists(linkId))
                 {
                     return NotFound();
                 }
@@ -69,8 +67,8 @@ namespace ResumeBuilder.Controllers
                     throw;
                 }
             }
-
-            return NoContent();
+            var linkList = await _context.Links.Where(l => l.ResumeId == resumeId).ToListAsync();
+            return Ok(linkList);
         }
 
         // POST: api/Links
