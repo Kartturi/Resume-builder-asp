@@ -110,7 +110,7 @@ namespace ResumeBuilder.Models
                     .WithMany(p => p.Links)
                     .HasForeignKey(d => d.ResumeId)
                     .OnDelete(DeleteBehavior.Cascade)
-                    .HasConstraintName("FK_links_resumeData1");
+                    .HasConstraintName("FK_links_resumeData");
             });
 
             

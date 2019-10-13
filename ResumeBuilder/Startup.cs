@@ -8,6 +8,7 @@ using Microsoft.Extensions.Hosting;
 using ResumeBuilder.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace ResumeBuilder
 {
@@ -26,10 +27,9 @@ namespace ResumeBuilder
             
             services.AddControllersWithViews();
             services.AddTransient<ResumeBuilderContext, ResumeBuilderContext>();
-            /*services.AddMvc()
-                .AddJsonOptions(
-                options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
-                );*/
+            services.AddMvc(option => option.EnableEndpointRouting = false)
+                .SetCompatibilityVersion(CompatibilityVersion.Version_3_0)
+                .AddNewtonsoftJson(opt => opt.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore);
             /*services.AddDbContext<ResumeBuilderContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("ResumeDatabase")));*/

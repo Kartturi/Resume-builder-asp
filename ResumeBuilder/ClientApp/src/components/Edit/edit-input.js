@@ -25,12 +25,34 @@ const EditInput = props => {
     });
   }
 
-  function saveResumeToLocalStorage() {
-    const resumes = JSON.parse(localStorage.getItem("resumes"));
-    resumes[props.index] = state;
-    localStorage.setItem("resumes", JSON.stringify(resumes));
-  }
+    const saveResumeToDb = async () => {
+        console.log(state, "before");
+        const resumeId = props.id;
+        const editUrl = `https://localhost:44318/api/resumedatas/editresumedata/${resumeId}`;
+        const currentState = state;
+        
+        const response = await fetch(editUrl, {
+            method: 'PUT',
+            mode: 'cors', // no-cors, *cors, same-origin
+            cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+            credentials: 'same-origin', // include, *same-origin, omit
+            headers: {
+                'Content-Type': 'application/json'
+                // 'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: JSON.stringify(currentState) // body data type must match "Content-Type" header
 
+        })
+        const updatedResume = await response.json();
+        console.log(updatedResume, "response");
+        dispatch({
+            type: "CHANGE_RESUME",
+            all: updatedResume
+        });
+        
+    
+  }
+    console.log(state, "from edit input");
   return (
     <div className="edit-input">
       <div className="edit-input__head">
@@ -49,20 +71,20 @@ const EditInput = props => {
           <select
             name="layout"
             onChange={useDispatch}
-            onBlur={saveResumeToLocalStorage}
+            onBlur={saveResumeToDb}
             value={state.layout}
           >
-            <option value="Turku">Turku</option>
-            <option value="Vaasa">Vaasa</option>
-            <option value="Rauma">Rauma</option>
-            <option value="Pori">Pori</option>
+            <option value="resume1">Turku</option>
+                      <option value="resume2">Vaasa</option>
+                      <option value="resume3">Rauma</option>
+                      <option value="resume4">Pori</option>
           </select>
         </label>
         <label>
           <h4>Name</h4>
           <input
             onChange={useDispatch}
-            onBlur={saveResumeToLocalStorage}
+            onBlur={saveResumeToDb}
             type="text"
             name="name"
             className=""
@@ -73,7 +95,7 @@ const EditInput = props => {
           <h4>Title</h4>
           <input
             onChange={useDispatch}
-            onBlur={saveResumeToLocalStorage}
+            onBlur={saveResumeToDb}
             type="text"
             name="title"
             className=""
@@ -85,7 +107,7 @@ const EditInput = props => {
         <label>
           <input
             onChange={useDispatch}
-            onBlur={saveResumeToLocalStorage}
+            onBlur={saveResumeToDb}
             type="text"
             name="personal"
             className="edit-input__title"
@@ -96,7 +118,7 @@ const EditInput = props => {
           <h4>Phone</h4>
           <input
             onChange={useDispatch}
-            onBlur={saveResumeToLocalStorage}
+            onBlur={saveResumeToDb}
             type="phone"
             name="phone"
             className=""
@@ -110,7 +132,7 @@ const EditInput = props => {
 
           <input
             onChange={useDispatch}
-            onBlur={saveResumeToLocalStorage}
+            onBlur={saveResumeToDb}
             type="email"
             name="email"
             className=""
@@ -123,7 +145,7 @@ const EditInput = props => {
 
           <input
             onChange={useDispatch}
-            onBlur={saveResumeToLocalStorage}
+            onBlur={saveResumeToDb}
             type="address"
             name="address"
             className=""
@@ -137,7 +159,7 @@ const EditInput = props => {
           <input
             className="edit-input__title"
             onChange={useDispatch}
-            onBlur={saveResumeToLocalStorage}
+            onBlur={saveResumeToDb}
             type="text"
             name="profileTitle"
             value={state.profileTitle}
@@ -147,7 +169,7 @@ const EditInput = props => {
           <textarea
             rows="10"
             onChange={useDispatch}
-            onBlur={saveResumeToLocalStorage}
+            onBlur={saveResumeToDb}
             type="text"
             name="profile"
             value={state.profile}
@@ -155,28 +177,28 @@ const EditInput = props => {
         </label>
       </div>
       <div className="edit-input__section">
-        <Links func={{ useDispatch, saveResumeToLocalStorage }} />
+        <Links func={{ useDispatch, saveResumeToDb }} />
       </div>
       <div className="edit-input__section">
-        <Work func={{ useDispatch, saveResumeToLocalStorage }} />
+        <Work func={{ useDispatch, saveResumeToDb }} />
       </div>
       <div className="edit-input__section">
-        <Education func={{ useDispatch, saveResumeToLocalStorage }} />
+        <Education func={{ useDispatch, saveResumeToDb }} />
       </div>
       <div className="edit-input__section">
-        <Projects func={{ useDispatch, saveResumeToLocalStorage }} />
+        <Projects func={{ useDispatch, saveResumeToDb }} />
       </div>
       <div className="edit-input__section">
-        <Skills func={{ useDispatch, saveResumeToLocalStorage }} />
+        <Skills func={{ useDispatch, saveResumeToDb }} />
       </div>
       <div className="edit-input__section">
-        <Language func={{ useDispatch, saveResumeToLocalStorage }} />
+        <Language func={{ useDispatch, saveResumeToDb }} />
       </div>
 
       <label>
         <input
           onChange={useDispatch}
-          onBlur={saveResumeToLocalStorage}
+          onBlur={saveResumeToDb}
           type="text"
           name="hobbiesTitle"
           className="edit-input__title"
@@ -187,13 +209,13 @@ const EditInput = props => {
         <textarea
           rows="10"
           onChange={useDispatch}
-          onBlur={saveResumeToLocalStorage}
+          onBlur={saveResumeToDb}
           type="text"
           name="hobbies"
           value={state.hobbies}
         />
       </label>
-      <Recommends func={{ useDispatch, saveResumeToLocalStorage }} />
+      <Recommends func={{ useDispatch, saveResumeToDb }} />
     </div>
   );
 };

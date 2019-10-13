@@ -9,7 +9,7 @@ const Work = props => {
   const { useDispatch, saveResumeToLocalStorage } = props.func;
   const changeStateValue = e => {
     //make totally new array
-    const newWorkStateCopy = state.work.concat();
+    const newWorkStateCopy = state.workData.concat();
     const currentResumeNum = e.target.dataset.listId;
     const currentResumeInput = e.target.name;
     const newInputValue = e.target.value;
@@ -21,7 +21,7 @@ const Work = props => {
       work: newWorkStateCopy
     });
   };
-  const ListItem = state.work.map((item, index) => {
+  const ListItem = state.workData.map((item, index) => {
     return (
       <li key={index}>
         <h4>company</h4>
@@ -55,8 +55,8 @@ const Work = props => {
         <textarea
           rows="10"
           type="text"
-          name="desc"
-          value={item.desc}
+          name="description"
+          value={item.description}
           data-list-id={index}
           onChange={changeStateValue}
           onBlur={saveResumeToLocalStorage}
@@ -66,9 +66,9 @@ const Work = props => {
   });
 
   const handleClick = e => {
-    let newArray = state.work.concat();
+    let newArray = state.workData.concat();
     if (e.target.textContent === "+") {
-      newArray.push({ position: "", time: "", desc: "" });
+      newArray.push({ position: "", time: "", description: "" });
     } else {
       newArray.pop();
     }
@@ -100,7 +100,7 @@ const Work = props => {
       >
         +
       </button>
-      {state.work.length > 1 ? (
+      {state.workData.length > 1 ? (
         <button
           onClick={handleClick}
           name="link"

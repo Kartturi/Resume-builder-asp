@@ -142,7 +142,7 @@ const Dashboard = () => {
         key={index}
         data-resume-index={index}
       >
-            <Link to={`/edit?index=${index}`}>Edit</Link>
+            <Link to={`/edit/${item.resumeId}`}>Edit</Link>
             <Link to={`/preview/${item.resumeId}`} 
                 
             

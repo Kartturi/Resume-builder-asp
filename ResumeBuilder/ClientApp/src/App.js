@@ -43,7 +43,7 @@ function App() {
       <StateProvider initialState={initialState} reducer={Reducer}>
         <div className="App">
           <Route exact path="/" component={Dashboard} />
-          <Route exact path="/edit" component={Edit} />
+          <Route exact path="/edit/:resumeId" component={Edit} />
           <Route exact path="/preview/:resumeId" component={Preview} />
         </div>
       </StateProvider>

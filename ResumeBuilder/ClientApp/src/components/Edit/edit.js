@@ -1,28 +1,38 @@
 import React, { useEffect } from "react";
 import { useStateValue } from "../../state";
+import { useParams } from "react-router-dom";
 //components
 import EditInput from "./edit-input";
 import EditPreview from "./edit-preview";
 
 const Edit = props => {
-  const search = props.history.location.search;
-  const index = Number(search.charAt(search.length - 1));
+  
+   const { resumeId } = useParams();
   const [state, dispatch] = useStateValue();
-  useEffect(() => {
-    //get the right resume from localstorage
+    useEffect(() => {
+        async function getResumeData() {
 
-    const resumes = JSON.parse(localStorage.getItem("resumes"));
-    const resume = resumes[index];
-    //add resume info to state
-    dispatch({
-      type: "CHANGE_RESUME",
-      all: resume
-    });
-  }, []);
+            console.log(resumeId, "preview started");
+            const getResumeUrl = `https://localhost:44318/api/resumedatas/getresumedata/${resumeId}`;
+
+            const response = await fetch(getResumeUrl);
+            const resumeData = await response.json();
+            console.log(resumeData, "from preview");
+            //add resume info to state
+            dispatch({
+                type: "CHANGE_RESUME",
+                all: resumeData
+            });
+
+        }
+        getResumeData()
+
+
+    }, []);
 
   return (
-    <div className="edit-container">
-      <EditInput index={index} />
+      <div className="edit-container">
+          <EditInput id={resumeId} />
       <EditPreview state={state} />
     </div>
   );

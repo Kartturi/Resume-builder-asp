@@ -1,5 +1,5 @@
 const reducer = (state, action) => {
-  console.log(state, action.education, "reducer in aciton");
+  
   switch (action.type) {
     case "CHANGE_RESUME":
       return Object.assign({}, action.all);
@@ -70,7 +70,7 @@ const reducer = (state, action) => {
     case "CHANGE_LINK":
       return {
         ...state,
-        links: action.link
+        links: action.links
       };
 
     case "CHANGE_HOBBIESTITLE":

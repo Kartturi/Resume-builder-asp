@@ -21,7 +21,7 @@ const Preview = props => {
         async function getResumeData() {
             
             console.log(resumeId, "preview started");
-          const getResumeUrl = `https://localhost:44318/api/resumedatas/getresumedata/${resumeId}`;
+            const getResumeUrl = `https://localhost:44318/api/resumedatas/getresumedata/${resumeId}`;
 
           const response = await fetch(getResumeUrl);
           const resumeData = await response.json();
@@ -70,10 +70,10 @@ const Preview = props => {
           />
         </Link>
         <select name="layout" onChange={changeLayout} value={state.layout}>
-          <option value="Turku">Turku</option>
-          <option value="Vaasa">Vaasa</option>
-          <option value="Rauma">Rauma</option>
-          <option value="Pori">Pori</option>
+          <option value="resume1">Turku</option>
+          <option value="resume2">Vaasa</option>
+          <option value="resume3">Rauma</option>
+          <option value="resume4">Pori</option>
         </select>
         <button onClick={donwloadResume}>Download Pdf</button>
           </div>

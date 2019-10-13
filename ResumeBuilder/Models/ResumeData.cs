@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-
+using System.Text.Json.Serialization;
 namespace ResumeBuilder.Models
 {
     public partial class ResumeData
@@ -46,11 +46,13 @@ namespace ResumeBuilder.Models
         public virtual UserData User { get; set; }
         public virtual ICollection<Education> Education { get; set; }
         public virtual ICollection<Language> Language { get; set; }
+        
         public virtual ICollection<Links> Links { get; set; }
 
         
         public virtual ICollection<Projects> Projects { get; set; }
         public virtual ICollection<Recommends> Recommends { get; set; }
+        
         public virtual ICollection<Skills> Skills { get; set; }
         public virtual ICollection<WorkData> WorkData { get; set; }
     }

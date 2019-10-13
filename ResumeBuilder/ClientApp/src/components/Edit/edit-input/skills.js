@@ -5,7 +5,7 @@ import { isArray } from "util";
 const Skills = props => {
   const [state, dispatch] = useStateValue();
 
-  const { useDispatch, saveResumeToLocalStorage } = props.func;
+    const { useDispatch, saveResumeToDb } = props.func;
 
   const changeStateValue = e => {
     //make totally new array
@@ -31,7 +31,7 @@ const Skills = props => {
           value={item.name}
           data-list-id={index}
           onChange={changeStateValue}
-          onBlur={saveResumeToLocalStorage}
+                onBlur={saveResumeToDb}
         />
         <h4>Level</h4>
         {/* <input
@@ -45,7 +45,7 @@ const Skills = props => {
         <select
           name="level"
           onChange={changeStateValue}
-          onBlur={saveResumeToLocalStorage}
+                onBlur={saveResumeToDb}
           value={item.level}
           data-list-id={index}
         >
@@ -79,7 +79,7 @@ const Skills = props => {
       <label>
         <input
           onChange={useDispatch}
-          onBlur={saveResumeToLocalStorage}
+                  onBlur={saveResumeToDb}
           type="text"
           name="skillsTitle"
           className="edit-input__title"

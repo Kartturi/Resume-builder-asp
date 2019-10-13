@@ -46,8 +46,8 @@ const Projects = props => {
         <textarea
           rows="10"
           type="text"
-          name="desc"
-          value={item.desc}
+          name="description"
+          value={item.description}
           data-list-id={index}
           onChange={changeStateValue}
           onBlur={saveResumeToLocalStorage}
@@ -59,7 +59,7 @@ const Projects = props => {
   const handleClick = e => {
     let newArray = state.projects.concat();
     if (e.target.textContent === "+") {
-      newArray.push({ project: "", time: "", desc: "" });
+      newArray.push({ project: "", time: "", description: "" });
     } else {
       newArray.pop();
     }

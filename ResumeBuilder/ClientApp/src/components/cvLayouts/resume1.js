@@ -147,7 +147,7 @@ const Resume1 = props => {
             ) : (
               ""
             )}
-            {state.links[0].name ? (
+            {state.links.length > 0 ? (
               <div className="resume1-links">
                 <h2>{state.linkTitle}</h2>
                 <ul>{ListItem}</ul>

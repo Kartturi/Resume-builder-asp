@@ -13,7 +13,7 @@ let initialState = {
   profile:
     "Intohimoinen ja itseoppinnut web-kehittäjä. Koulut käyty tradenomikoulutuksen muodossa. Taidan myös digimarkkinoinnin saloja. ",
   linkTitle: "Links",
-    links: [{ name: "kotisivut:www.kartturi.eu" }],
+    links: [],
   hobbiesTitle: "Harrastukset",
   hobbies: "äänikirjat, ulkoilu, futis",
   workTitle: "Työkokemus",

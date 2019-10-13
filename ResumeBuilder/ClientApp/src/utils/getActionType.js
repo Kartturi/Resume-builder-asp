@@ -28,7 +28,7 @@ function getActionType(type) {
     case "linkTitle":
       return "CHANGE_LINKTITLE";
 
-    case "link":
+    case "links":
       return "CHANGE_LINK";
 
     case "hobbiesTitle":

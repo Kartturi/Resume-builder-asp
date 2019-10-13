@@ -151,6 +151,45 @@ namespace ResumeBuilder.Controllers
             return Ok(userData);
         }
 
+        // PUT: api/ResumeDatas/editResumeData/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
+        // more details see https://aka.ms/RazorPagesCRUD.
+        [HttpPut("{id}")]
+        public async Task<IActionResult> editResumeData(int id, ResumeData resumeData)
+        {
+            _context.Entry(resumeData).State = EntityState.Modified;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!ResumeDataExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            var updatedResume = await _context.ResumeData
+                .Where(r => r.ResumeId == id)
+                .Include(s => s.Links)
+                .Include(w => w.WorkData)
+                .Include(w => w.Education)
+                .Include(w => w.Language)
+                .Include(w => w.Projects)
+                .Include(w => w.Recommends)
+                .Include(w => w.Skills)
+                .FirstOrDefaultAsync();
+                
+            return Ok(updatedResume);
+        }
+
         // POST: api/ResumeDatas
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.

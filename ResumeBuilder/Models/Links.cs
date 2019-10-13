@@ -7,6 +7,7 @@ namespace ResumeBuilder.Models
     {
         public int LinkId { get; set; }
         public string Name { get; set; }
+
         public int ResumeId { get; set; }
         [JsonIgnore]
         public virtual ResumeData Resume { get; set; }

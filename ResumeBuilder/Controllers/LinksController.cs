@@ -76,29 +76,33 @@ namespace ResumeBuilder.Controllers
         // POST: api/Links
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
-        [HttpPost]
-        public async Task<ActionResult<Links>> PostLinks(Links links)
+        [HttpPost("{id}")]
+        public async Task<ActionResult<Links>> PostLinks(int id, Links links)
         {
             _context.Links.Add(links);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetLinks", new { id = links.LinkId }, links);
+            var linkData = await _context.Links.Where(l => l.ResumeId == id).ToListAsync();
+
+            return Ok(linkData);
         }
 
         // DELETE: api/Links/5
         [HttpDelete("{id}")]
         public async Task<ActionResult<Links>> DeleteLinks(int id)
         {
+            
             var links = await _context.Links.FindAsync(id);
+            
             if (links == null)
             {
                 return NotFound();
             }
-
+            int resumeId = links.ResumeId;
             _context.Links.Remove(links);
             await _context.SaveChangesAsync();
 
-            return links;
+            return Ok(await _context.Links.Where(l => l.ResumeId == resumeId).ToListAsync());
         }
 
         private bool LinksExists(int id)

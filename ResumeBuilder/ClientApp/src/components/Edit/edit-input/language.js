@@ -29,7 +29,7 @@ const Language = props => {
         <input
           type="text"
           name="language"
-          value={item.language}
+          value={item.name}
           data-list-id={index}
           onChange={changeStateValue}
           onBlur={saveResumeToLocalStorage}
@@ -50,7 +50,7 @@ const Language = props => {
   const handleClick = e => {
     let newArray = state.language.concat();
     if (e.target.textContent === "+") {
-      newArray.push({ language: "", level: "" });
+      newArray.push({ name: "", level: "" });
     } else {
       newArray.pop();
     }
