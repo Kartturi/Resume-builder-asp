@@ -39,7 +39,7 @@ const Dashboard = () => {
     };
     const saveResumeNameToDb = async (e) => {
         const resumeId = resumes[e.target.dataset.resumeIndex].resumeId;
-        const changeResumeUrl = `https://localhost:44318/api/resumedatas/${resumeId}`;
+        const changeResumeUrl = `https://localhost:44318/api/resumedatas/updtaderesumedata/${resumeId}`;
         const resumeNameValue = JSON.stringify({ resumeName: e.target.value, userId });
         const response = await fetch(changeResumeUrl, {
             method: 'PUT',
@@ -62,7 +62,7 @@ const Dashboard = () => {
       const resumeId = Number(e.target.dataset.resumeIndex);
       
       async function changeLayout() {
-          const changeLayoutUrl = `https://localhost:44318/api/resumedatas/${resumeId}`;
+          const changeLayoutUrl = `https://localhost:44318/api/resumedatas/updtaderesumedata/${resumeId}`;
           const layoutValue = JSON.stringify({ layout: e.target.value, userId });
           const response = await fetch(changeLayoutUrl, {
               method: 'PUT',
@@ -88,7 +88,7 @@ const Dashboard = () => {
   const deleteResume = e => {
       const resumeIndex = e.target.dataset.resumeIndex;
       async function deleteResumeFromDb() {
-          const deleteResumeUrl = `https://localhost:44318/api/resumedatas/${resumeIndex}`;
+          const deleteResumeUrl = `https://localhost:44318/api/resumedatas/deleteresumedata/${resumeIndex}`;
           const response = await fetch(deleteResumeUrl, {
               method: "DELETE"
           });
@@ -103,24 +103,36 @@ const Dashboard = () => {
   };
 
   const duplicateResume = e => {
-    //get resume from ls
-    const resumeIndex = e.target.dataset.resumeIndex;
-    const resumesLS = getResumesLS();
-    const newResume = Object.assign({}, resumesLS[resumeIndex]);
+      async function duplicateResume() {
+          const resumeIndex = e.target.dataset.resumeIndex;
+          
+          const ResumeArr = [...resumes];
+          const newResume = ResumeArr[resumeIndex];
+          
+          //we need new name for duplicated resume
+          newResume.resumeName = newResume.resumeName + "-copy";
+          console.log(userId, "from duplicate");
+          const duplicateUrl = `https://localhost:44318/api/resumedatas/duplicate/${userId}`;
+          
+          const response = await fetch(duplicateUrl, {
+              method: "POST",
+              mode: "cors",
+              cache: "no-cache",
+              headers: {
+                  "content-Type": "application/json",
+                  "accept": "*/*",
 
-    //make new name for new copy
-    newResume.resumeName = newResume.resumeName + "-copy";
+              },
 
-    resumesLS.splice(resumeIndex, 0, newResume);
-    setResumesLS(resumesLS);
-    setResumes(resumesLS);
-    console.log(resumesLS, "from duplicate");
+              body: JSON.stringify(newResume)
+          });
+          const resumeIds = await response.json();
+          setResumes(resumeIds);
+          console.log(resumeIds);
 
-    //make new copy of it
-
-    //add new copy to resumes
-
-    //add to localstorage and component state
+      }
+      duplicateResume();
+    
   };
 
   const resumeListItem = resumes.map((item, index) => {
@@ -167,7 +179,7 @@ const Dashboard = () => {
         async function SaveNewResumeToDB() {
             
             const initResumeTemplate = JSON.stringify(initialState);
-            const postResumeUrl = `https://localhost:44318/api/resumedatas`;
+            const postResumeUrl = `https://localhost:44318/api/resumedatas/createresume`;
             const response = await fetch(postResumeUrl, {
                 method: "POST",
                 mode: "cors",

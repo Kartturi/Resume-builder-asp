@@ -10,7 +10,7 @@ using ResumeBuilder.Models;
 
 namespace ResumeBuilder.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
     public class ResumeDatasController : ControllerBase
     {
@@ -47,6 +47,45 @@ namespace ResumeBuilder.Controllers
 
             return await _context.ResumeData.ToListAsync();
         }
+        
+        
+        [HttpPost("{id}")]
+        public async Task<ActionResult<IEnumerable<ResumeData>>> Duplicate(int id, ResumeData resumeData)
+        {
+            int ResumeId = resumeData.ResumeId;
+            var newResume = await _context.ResumeData.Where(s => s.ResumeId == ResumeId)
+                 .Include(s => s.Links)
+                 .Include(w => w.WorkData)
+                 .Include(w => w.Education)
+                 .Include(w => w.Language)
+                 .Include(w => w.Projects)
+                 .Include(w => w.Recommends)
+                 .Include(w => w.Skills)
+                 .FirstOrDefaultAsync();
+
+            if (newResume == null)
+            {
+                return NotFound();
+            }
+
+            newResume.ResumeId = 0;
+            newResume.ResumeName = resumeData.ResumeName;
+            int UserId = newResume.UserId;
+            
+            _context.ResumeData.Add(newResume);
+            await _context.SaveChangesAsync();
+
+            var userData = await _context.ResumeData
+                .Where(u => u.UserId == id).Select(p => new { p.ResumeId, p.ResumeName, p.Layout })
+                .ToListAsync();
+
+            if (userData == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(userData);
+        }
 
         // GET: api/ResumeDatas/5
         [HttpGet("{id}")]
@@ -74,7 +113,7 @@ namespace ResumeBuilder.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutResumeData(int id, ResumeData resumeData)
+        public async Task<IActionResult> UpdtadeResumeData(int id, ResumeData resumeData)
         {
             
             int userId = resumeData.UserId;
@@ -116,7 +155,7 @@ namespace ResumeBuilder.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPost]
-        public async Task<ActionResult<ResumeData>> PostResumeData(ResumeData resumeData)
+        public async Task<ActionResult<ResumeData>> CreateResume(ResumeData resumeData)
         {
             int userId = resumeData.UserId;
             _context.ResumeData.Add(resumeData);

@@ -21,7 +21,7 @@ const Preview = props => {
         async function getResumeData() {
             
             console.log(resumeId, "preview started");
-          const getResumeUrl = `https://localhost:44318/api/resumedatas/${resumeId}`;
+          const getResumeUrl = `https://localhost:44318/api/resumedatas/getresumedata/${resumeId}`;
 
           const response = await fetch(getResumeUrl);
           const resumeData = await response.json();
