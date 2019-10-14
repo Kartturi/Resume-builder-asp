@@ -177,10 +177,10 @@ const EditInput = props => {
         </label>
       </div>
       <div className="edit-input__section">
-        <Links func={{ useDispatch, saveResumeToDb }} />
+        <Links  />
       </div>
       <div className="edit-input__section">
-        <Work func={{ useDispatch, saveResumeToDb }} />
+        <Work  />
       </div>
       <div className="edit-input__section">
         <Education func={{ useDispatch, saveResumeToDb }} />

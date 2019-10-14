@@ -47,56 +47,34 @@ namespace ResumeBuilder.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutWorkData(int id, WorkData workData)
         {
-            if (id != workData.WorkId)
-            {
-                return BadRequest();
-            }
+            int resumeId = id;
+            int workId = workData.WorkId;
+            var works = _context.WorkData.First(l => l.WorkId == workId);
 
-            _context.Entry(workData).State = EntityState.Modified;
+            works.Position = workData.Position;
+            works.Company = workData.Company;
+            works.Time = workData.Time;
+            works.Description = workData.Description;
 
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!WorkDataExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+            await _context.SaveChangesAsync();
 
-            return NoContent();
+            var workDataList = await _context.WorkData.Where(l => l.ResumeId == resumeId).ToListAsync();
+            return Ok(workDataList);
         }
 
         // POST: api/WorkDatas
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
-        [HttpPost]
-        public async Task<ActionResult<WorkData>> PostWorkData(WorkData workData)
+        [HttpPost("{id}")]
+        public async Task<ActionResult<WorkData>> PostWorkData(int id, WorkData workData)
         {
             _context.WorkData.Add(workData);
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateException)
-            {
-                if (WorkDataExists(workData.WorkId))
-                {
-                    return Conflict();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+            
+            await _context.SaveChangesAsync();
+            
+            var newWorkData = await _context.WorkData.Where(l => l.ResumeId == id).ToListAsync();
 
-            return CreatedAtAction("GetWorkData", new { id = workData.WorkId }, workData);
+            return Ok(newWorkData);
         }
 
         // DELETE: api/WorkDatas/5
@@ -108,11 +86,11 @@ namespace ResumeBuilder.Controllers
             {
                 return NotFound();
             }
-
+            int resumeId = workData.ResumeId;
             _context.WorkData.Remove(workData);
             await _context.SaveChangesAsync();
 
-            return workData;
+            return Ok(await _context.WorkData.Where(l => l.ResumeId == resumeId).ToListAsync());
         }
 
         private bool WorkDataExists(int id)

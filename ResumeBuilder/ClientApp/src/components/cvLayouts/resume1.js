@@ -91,8 +91,8 @@ const Resume1 = props => {
               </div>
             ) : (
               ""
-            )}
-            {state.workData[0].position ? (
+                          )}
+                      {state.workData.length > 0 ? (
               <div className="resume1-experience ">
                 <FontAwesomeIcon className="resume1-icons" icon="suitcase" />
                 <h2>{state.workTitle}</h2>

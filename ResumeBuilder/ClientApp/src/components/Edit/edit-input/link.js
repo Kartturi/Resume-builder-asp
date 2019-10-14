@@ -5,7 +5,7 @@ import getActionType from "../../../utils/getActionType";
 const Links = props => {
   const [state, dispatch] = useStateValue();
   //   const { useDispatch, saveResumeToLocalStorage } = props.use;
-    const { useDispatch, saveResumeToDb } = props.func;
+    
 
   const changeLinkValue = e => {
       const index = e.target.dataset.listId;

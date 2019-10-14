@@ -94,7 +94,7 @@ const reducer = (state, action) => {
     case "CHANGE_WORK":
       return {
         ...state,
-        work: action.work
+        workData: action.workData
       };
 
     case "CHANGE_EDUCATIONTITLE":
