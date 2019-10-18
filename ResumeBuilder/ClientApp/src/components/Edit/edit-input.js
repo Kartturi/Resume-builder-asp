@@ -43,12 +43,9 @@ const EditInput = props => {
             body: JSON.stringify(currentState) // body data type must match "Content-Type" header
 
         })
-        const updatedResume = await response.json();
-        console.log(updatedResume, "response");
-        dispatch({
-            type: "CHANGE_RESUME",
-            all: updatedResume
-        });
+        const data = await response;
+        console.log(data);
+        
         
     
   }
@@ -177,13 +174,13 @@ const EditInput = props => {
         </label>
       </div>
       <div className="edit-input__section">
-        <Links  />
+              <Links func={{ useDispatch, saveResumeToDb }}/>
       </div>
       <div className="edit-input__section">
-        <Work  />
+              <Work func={{ useDispatch, saveResumeToDb }} />
       </div>
       <div className="edit-input__section">
-        <Education func={{ useDispatch, saveResumeToDb }} />
+              <Education func={{ useDispatch, saveResumeToDb }}/>
       </div>
       <div className="edit-input__section">
         <Projects func={{ useDispatch, saveResumeToDb }} />

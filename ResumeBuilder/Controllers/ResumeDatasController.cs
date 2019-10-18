@@ -176,18 +176,18 @@ namespace ResumeBuilder.Controllers
                 }
             }
 
-            var updatedResume = await _context.ResumeData
-                .Where(r => r.ResumeId == id)
-                .Include(s => s.Links)
-                .Include(w => w.WorkData)
-                .Include(w => w.Education)
-                .Include(w => w.Language)
-                .Include(w => w.Projects)
-                .Include(w => w.Recommends)
-                .Include(w => w.Skills)
-                .FirstOrDefaultAsync();
+            //var updatedResume = await _context.ResumeData
+            //    .Where(r => r.ResumeId == id)
+            //    .Include(s => s.Links)
+            //    .Include(w => w.WorkData)
+            //    .Include(w => w.Education)
+            //    .Include(w => w.Language)
+            //    .Include(w => w.Projects)
+            //    .Include(w => w.Recommends)
+            //    .Include(w => w.Skills)
+            //    .FirstOrDefaultAsync();
                 
-            return Ok(updatedResume);
+            return NoContent();
         }
 
         // POST: api/ResumeDatas

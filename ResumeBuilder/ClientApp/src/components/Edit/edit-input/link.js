@@ -3,7 +3,8 @@ import { useStateValue } from "../../../state";
 import getActionType from "../../../utils/getActionType";
 
 const Links = props => {
-  const [state, dispatch] = useStateValue();
+    const [state, dispatch] = useStateValue();
+    const { useDispatch, saveResumeToDb } = props.func;
   //   const { useDispatch, saveResumeToLocalStorage } = props.use;
     
 
@@ -25,29 +26,23 @@ const Links = props => {
     const updateLink = e => {
         const linkId = e.target.dataset.linkId;
         const index = e.target.dataset.listId;
-        const actionType = e.target.name;
         const updateLinkUrl = `https://localhost:44318/api/links/${state.resumeId}`;
         const linkData = { name: state.links[index].name, linkId };
         async function updateLink() {
-            
-            
-            const response = await fetch(updateLinkUrl, {
+            const response =  await fetch(updateLinkUrl, {
                 method: 'PUT',
                 mode: 'cors', // no-cors, *cors, same-origin
                 cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-                credentials: 'same-origin', // include, *same-origin, omit
+                 credentials: 'same-origin', // include, *same-origin, omit
                 headers: {
                     'Content-Type': 'application/json'
                     // 'Content-Type': 'application/x-www-form-urlencoded',
                 },
                 body: JSON.stringify(linkData) // body data type must match "Content-Type" header
-            })
-            const resumeLinks = await response.json();
+             })
+            const data = await response;
+            console.log(data);
 
-            dispatch({
-                type: getActionType(actionType),
-                [actionType]: resumeLinks
-            });
         }
         updateLink()
     }
@@ -130,8 +125,9 @@ const Links = props => {
   return (
     <div className="edit-input__link">
       <label>
-        <input
-          
+         <input
+                  onChange={useDispatch}
+                  onBlur={saveResumeToDb}
           type="text"
           name="linkTitle"
           className="edit-input__title"

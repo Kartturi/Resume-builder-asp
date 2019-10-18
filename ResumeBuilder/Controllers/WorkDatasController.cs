@@ -58,8 +58,8 @@ namespace ResumeBuilder.Controllers
 
             await _context.SaveChangesAsync();
 
-            var workDataList = await _context.WorkData.Where(l => l.ResumeId == resumeId).ToListAsync();
-            return Ok(workDataList);
+
+            return NoContent();
         }
 
         // POST: api/WorkDatas

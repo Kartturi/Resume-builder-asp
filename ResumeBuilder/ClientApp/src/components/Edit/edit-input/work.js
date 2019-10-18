@@ -5,7 +5,7 @@ import { isArray } from "util";
 
 const Work = props => {
   const [state, dispatch] = useStateValue();
-
+  const { useDispatch, saveResumeToDb } = props.func;
   
     const changeStateValue = e => {
         const NewWorkState = [...state.workData];
@@ -35,23 +35,20 @@ const Work = props => {
           workId
       };
       async function updateWork() {
-          const response = await fetch(updateWorkDataUrl, {
+           const response = await fetch(updateWorkDataUrl, {
               method: 'PUT',
               mode: 'cors', // no-cors, *cors, same-origin
               cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
               credentials: 'same-origin', // include, *same-origin, omit
               headers: {
-                  'Content-Type': 'application/json'
-                  // 'Content-Type': 'application/x-www-form-urlencoded',
-              },
+                   'Content-Type': 'application/json'
+                   // 'Content-Type': 'application/x-www-form-urlencoded',
+               },
               body: JSON.stringify(workData) // body data type must match "Content-Type" header
-          })
-          const workDataList = await response.json();
-          console.log(workDataList, "what is thid");
-          dispatch({
-              type: "CHANGE_WORK",
-              workData: workDataList
-          });
+           })
+          const data = await response
+          console.log(data);
+          
       }
       updateWork()
 
@@ -165,7 +162,8 @@ const Work = props => {
       <label>
         <input
           
-          
+        onChange={useDispatch}
+        onBlur={saveResumeToDb}
           type="text"
           name="workTitle"
           className="edit-input__title"

@@ -98,10 +98,8 @@ const Resume1 = props => {
                 <h2>{state.workTitle}</h2>
                 <ul>{WorkListItem}</ul>
               </div>
-            ) : (
-              ""
-            )}
-            {state.education[0].school ? (
+            ) : ("")}
+                      {state.education.length > 0 ? (
               <div className="resume1-education ">
                 <FontAwesomeIcon
                   className="resume1-icons"
@@ -114,7 +112,7 @@ const Resume1 = props => {
               ""
             )}
 
-            {state.projects[0].name ? (
+                      {state.projects.length > 0 ? (
               <div className="resume1-projects ">
                 <FontAwesomeIcon className="resume1-icons" icon="desktop" />
                 <h2>{state.projectsTitle}</h2>
@@ -124,7 +122,7 @@ const Resume1 = props => {
               ""
             )}
 
-            {state.recommends[0].nameRecommends ? (
+                      {state.recommends.length > 0 ? (
               <div className="resume1-recommends ">
                 <FontAwesomeIcon className="resume1-icons" icon="bullhorn" />
                 <h2>{state.recommendsTitle}</h2>
@@ -157,7 +155,7 @@ const Resume1 = props => {
               ""
             )}
 
-            {state.skills[0].name ? (
+              {state.skills.length > 1 ? (
               <div className="resume1-skills">
                 <h2>{state.skillsTitle}</h2>
                 <ul>{skillsListItem}</ul>
@@ -176,7 +174,7 @@ const Resume1 = props => {
               ""
             )}
 
-            {state.language[0].name ? (
+                      {state.language.length > 0 ? (
               <div className="resume1-language">
                 <h2>{state.languageTitle}</h2>
                 <ul>{LanguageListItem}</ul>

@@ -67,8 +67,8 @@ namespace ResumeBuilder.Controllers
                     throw;
                 }
             }
-            var linkList = await _context.Links.Where(l => l.ResumeId == resumeId).ToListAsync();
-            return Ok(linkList);
+
+            return NoContent();
         }
 
         // POST: api/Links

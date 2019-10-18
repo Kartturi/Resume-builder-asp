@@ -50,7 +50,7 @@ let initialState = {
     {
       school: "Erasmus-vaihto , Cracow university of economics",
       time: "elokuu 2019 – elokuu 2019",
-        description: "Vaihto-oppilasjakso kauniissa Krakovassa markkinoinnin parissa "
+      description: "Vaihto-oppilasjakso kauniissa Krakovassa markkinoinnin parissa "
     }
   ],
   recommendsTitle: "Suositukset",

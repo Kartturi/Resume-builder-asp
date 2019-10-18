@@ -1,107 +1,190 @@
 import React from "react";
 import { useStateValue } from "../../../state";
+import getActionType from "../../../utils/getActionType";
+import { isArray } from "util";
 
 const Education = props => {
-  const [state, dispatch] = useStateValue();
+    const [state, dispatch] = useStateValue();
+    const { useDispatch, saveResumeToDb } = props.func;
 
-  const { useDispatch, saveResumeToLocalStorage } = props.func;
-  const changeStateValue = e => {
-    //make totally new array
-    const newWorkStateCopy = state.education.concat();
-    const currentResumeNum = e.target.dataset.listId;
-    const currentResumeInput = e.target.name;
-    const newInputValue = e.target.value;
-    //changeValue
-    newWorkStateCopy[currentResumeNum][currentResumeInput] = newInputValue;
+    const changeEducationStateValue = e => {
+        const actionType = e.target.name;
+        const newStateValue = [...state.education];
+        
+        const index = e.target.dataset.listId;
+        newStateValue[index][actionType] = e.target.value;
+        console.log(newStateValue, "newstate");
+        dispatch({
+            type: "CHANGE_EDUCATION",
+            education: newStateValue
+        })
+    };
 
-    dispatch({
-      type: "CHANGE_EDUCATION",
-      education: newWorkStateCopy
-    });
-  };
-  const ListItem = state.education.map((item, index) => {
-    return (
-      <li key={index}>
-        <h4>School</h4>
-        <input
-          type="text"
-          name="school"
-          value={item.school}
-          data-list-id={index}
-          onChange={changeStateValue}
-          onBlur={saveResumeToLocalStorage}
-        />
-        <h4>Time</h4>
-        <input
-          type="text"
-          name="time"
-          value={item.time}
-          data-list-id={index}
-          onChange={changeStateValue}
-          onBlur={saveResumeToLocalStorage}
-        />
-        <h4>Description</h4>
-        <textarea
-          rows="10"
-          type="text"
-          name="desc"
-          value={item.desc}
-          data-list-id={index}
-          onChange={changeStateValue}
-          onBlur={saveResumeToLocalStorage}
-        />
-      </li>
-    );
-  });
+    const updateEducation = e => {
 
-  const handleClick = e => {
-    let newArray = state.education.concat();
-    if (e.target.textContent === "+") {
-      newArray.push({ school: "", time: "", desc: "" });
-    } else {
-      newArray.pop();
+        const educationId = e.target.dataset.educationId;
+        const index = e.target.dataset.listId;
+        const resumeId = state.resumeId;
+        console.log(e.target.dataset.educationId);
+        const updateEducationUrl = `https://localhost:44318/api/educations/${resumeId}`;
+        const currentEducationData = state.education[index];
+        const educationData = {
+            school: currentEducationData.school,
+            time: currentEducationData.time,
+            description: currentEducationData.description, resumeId: state.resumeId,
+            educationId
+        };
+        async function updateEducationData() {
+           const response = await fetch(updateEducationUrl, {
+                method: 'PUT',
+                mode: 'cors', // no-cors, *cors, same-origin
+                cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+                credentials: 'same-origin', // include, *same-origin, omit
+                headers: {
+                   'Content-Type': 'application/json'
+                   // 'Content-Type': 'application/x-www-form-urlencoded',
+               },
+                body: JSON.stringify(educationData) // body data type must match "Content-Type" header
+           })
+            const data = await response
+            console.log(data);
+        }
+        updateEducationData()
+
     }
-
-    dispatch({
-      type: "CHANGE_EDUCATION",
-      education: newArray
+    const ListItem = state.education.map((item, index) => {
+        return (
+            <li key={index}>
+                <h4>School</h4>
+                <input
+                    type="text"
+                    name="school"
+                    value={item.school}
+                    data-list-id={index}
+                    data-education-id={item.educationId}
+                    onChange={changeEducationStateValue}
+                    onBlur={updateEducation}
+                />
+                <h4>Time</h4>
+                <input
+                    type="text"
+                    name="time"
+                    value={item.time}
+                    data-list-id={index}
+                    data-education-id={item.educationId}
+                    onChange={changeEducationStateValue}
+                    onBlur={updateEducation}
+                />
+                <h4>Description</h4>
+                <textarea
+                    rows="10"
+                    type="text"
+                    name="description"
+                    value={item.description}
+                    data-list-id={index}
+                    data-education-id={item.educationId}
+                    onChange={changeEducationStateValue}
+                    onBlur={updateEducation}
+                />
+            </li>
+        );
     });
-  };
 
-  return (
-    <div className="edit-input__work">
-      <label>
-        <input
-          onChange={useDispatch}
-          onBlur={saveResumeToLocalStorage}
-          type="text"
-          name="workTitle"
-          className="edit-input__title"
-          value={state.educationTitle}
-        />
-      </label>
+    const addEducationData = e => {
 
-      <ul>{ListItem}</ul>
-      <button
-        onClick={handleClick}
-        name="link"
-        className="edit-input__button edit-input__button_add"
-      >
-        +
+        const actionType = e.target.name;
+        async function addEducation() {
+            const educationUrl = `https://localhost:44318/api/educations/${state.resumeId}`;
+            const educationData = {
+                school: "",
+                time: "",
+                description: "", resumeId: state.resumeId
+                
+            };
+            const response = await fetch(educationUrl, {
+                method: 'POST',
+                mode: 'cors', // no-cors, *cors, same-origin
+                cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+                credentials: 'same-origin', // include, *same-origin, omit
+                headers: {
+                    'Content-Type': 'application/json'
+                    // 'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: JSON.stringify(educationData) // body data type must match "Content-Type" header
+            })
+            const newEducationData = await response.json();
+
+            dispatch({
+                type: "CHANGE_EDUCATION",
+                [actionType]: newEducationData
+            });
+        }
+        addEducation()
+
+    };
+    const deleteEducationData = e => {
+        const actionType = e.target.name;
+
+        const latestEducationDataId = state.education[state.education.length - 1].educationId;
+        async function deleteEducation() {
+            const educationUrl = `https://localhost:44318/api/educations/${latestEducationDataId}`;
+            const response = await fetch(educationUrl, {
+                method: 'DELETE',
+                mode: 'cors', // no-cors, *cors, same-origin
+                cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+                credentials: 'same-origin', // include, *same-origin, omit
+                headers: {
+                    'Content-Type': 'application/json'
+                    // 'Content-Type': 'application/x-www-form-urlencoded',
+                },
+
+            })
+            const educationData = await response.json();
+
+            dispatch({
+                type: "CHANGE_EDUCATION",
+                [actionType]: educationData
+            });
+        }
+        deleteEducation();
+
+    };
+
+    return (
+        <div className="edit-input__work">
+            <label>
+                <input
+
+                    onChange={useDispatch}
+                    onBlur={saveResumeToDb}
+                    type="text"
+                    name="educationTitle"
+                    className="edit-input__title"
+                    value={state.educationTitle}
+                />
+            </label>
+
+            <ul>{ListItem}</ul>
+            <button
+                onClick={addEducationData}
+                name="education"
+                className="edit-input__button edit-input__button_add"
+            >
+                +
       </button>
-      {state.education.length > 1 ? (
-        <button
-          onClick={handleClick}
-          name="link"
-          className="edit-input__button edit-input__button_minus"
-        >
-          -
+            {state.education.length > 1 ? (
+                <button
+                    onClick={deleteEducationData}
+                    name="education"
+                    className="edit-input__button edit-input__button_minus"
+                >
+                    -
         </button>
-      ) : (
-        ""
-      )}
-    </div>
-  );
+            ) : (
+                    ""
+                )}
+        </div>
+    );
 };
 
 export default Education;

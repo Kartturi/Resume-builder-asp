@@ -1,112 +1,186 @@
 import React from "react";
 import { useStateValue } from "../../../state";
-import { isArray } from "util";
+import getActionType from "../../../utils/getActionType";
+
 
 const Skills = props => {
-  const [state, dispatch] = useStateValue();
-
+    const [state, dispatch] = useStateValue();
     const { useDispatch, saveResumeToDb } = props.func;
 
-  const changeStateValue = e => {
-    //make totally new array
-    const newWorkStateCopy = state.skills.concat();
-    const currentResumeNum = e.target.dataset.listId;
-    const currentResumeInput = e.target.name;
-    const newInputValue = e.target.value;
-    //changeValue
-    newWorkStateCopy[currentResumeNum][currentResumeInput] = newInputValue;
-    dispatch({
-      type: "CHANGE_SKILLS",
-      skills: newWorkStateCopy
-    });
-  };
+    const changeSkillsStateValue = e => {
+        const actionType = e.target.name;
+        const newStateValue = [...state.skills];
 
-  const ListItem = state.skills.map((item, index) => {
-    return (
-      <li key={index}>
-        <h4>Skill</h4>
-        <input
-          type="text"
-          name="name"
-          value={item.name}
-          data-list-id={index}
-          onChange={changeStateValue}
-                onBlur={saveResumeToDb}
-        />
-        <h4>Level</h4>
-        {/* <input
-          type="text"
-          name="level"
-          value={item.level}
-          data-list-id={index}
-          onChange={changeStateValue}
-          onBlur={saveResumeToLocalStorage}
-        /> */}
-        <select
-          name="level"
-          onChange={changeStateValue}
-                onBlur={saveResumeToDb}
-          value={item.level}
-          data-list-id={index}
-        >
-          <option value="0">Empty</option>
-          <option value="1">Beginner</option>
-          <option value="2">Fair</option>
-          <option value="3">Good</option>
-          <option value="4">very good</option>
-          <option value="5">Pro</option>
-        </select>
-      </li>
-    );
-  });
+        const index = e.target.dataset.listId;
+        newStateValue[index][actionType] = e.target.value;
+        console.log(newStateValue, "newstate");
+        dispatch({
+            type: "CHANGE_SKILLS",
+            skills: newStateValue
+        })
+    };
 
-  const handleClick = e => {
-    let newArray = state.skills.concat();
-    if (e.target.textContent === "+") {
-      newArray.push({ name: "", level: "" });
-    } else {
-      newArray.pop();
+    const updateSkills = e => {
+
+        const skillsId = e.target.dataset.skillsId;
+        const index = e.target.dataset.listId;
+        const resumeId = state.resumeId;
+        console.log(e.target.dataset.skillsId);
+        const updateSkillsUrl = `https://localhost:44318/api/skills/${resumeId}`;
+        const currentSkillsData = state.skills[index];
+        const skillsData = {
+            
+            name: currentSkillsData.name,
+            level: currentSkillsData.level, resumeId: state.resumeId,
+            skillsId
+        };
+        async function updateSkillsData() {
+            const response = await fetch(updateSkillsUrl, {
+                method: 'PUT',
+                mode: 'cors', // no-cors, *cors, same-origin
+                cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+                credentials: 'same-origin', // include, *same-origin, omit
+                headers: {
+                    'Content-Type': 'application/json'
+                    // 'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: JSON.stringify(skillsData) // body data type must match "Content-Type" header
+            })
+            const data = await response
+            console.log(data);
+        }
+        updateSkillsData()
+
     }
-
-    dispatch({
-      type: "CHANGE_SKILLS",
-      skills: newArray
+    const ListItem = state.skills.map((item, index) => {
+        return (
+            <li key={index}>
+                <h4>Skill</h4>
+                <input
+                    type="text"
+                    name="name"
+                    value={item.name}
+                    data-list-id={index}
+                    data-skills-id={item.skillsId}
+                    onChange={changeSkillsStateValue}
+                    onBlur={updateSkills}
+                />
+                <h4>Level</h4>
+                
+                <select
+                    name="level"
+                    onChange={changeSkillsStateValue}
+                    onBlur={updateSkills}
+                    value={item.level}
+                    data-skills-id={item.skillsId}
+                    data-list-id={index}
+                >
+                    <option value="0">Empty</option>
+                    <option value="1">Beginner</option>
+                    <option value="2">Fair</option>
+                    <option value="3">Good</option>
+                    <option value="4">very good</option>
+                    <option value="5">Pro</option>
+                </select>
+            </li>
+    );
     });
-  };
 
-  return (
-    <div className="edit-input__skills">
-      <label>
-        <input
-          onChange={useDispatch}
-                  onBlur={saveResumeToDb}
-          type="text"
-          name="skillsTitle"
-          className="edit-input__title"
-          value={state.skillsTitle}
-        />
-      </label>
+    const addSkillsData = e => {
 
-      <ul>{ListItem}</ul>
-      <button
-        onClick={handleClick}
-        className="edit-input__button edit-input__button_add"
-      >
-        +
+        const actionType = e.target.name;
+        async function addSkills() {
+            const skillsUrl = `https://localhost:44318/api/skills/${state.resumeId}`;
+            const skillsData = {
+                name: "",
+                level: 0,
+                resumeId: state.resumeId
+
+            };
+            const response = await fetch(skillsUrl, {
+                method: 'POST',
+                mode: 'cors', // no-cors, *cors, same-origin
+                cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+                credentials: 'same-origin', // include, *same-origin, omit
+                headers: {
+                    'Content-Type': 'application/json'
+                    // 'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: JSON.stringify(skillsData) // body data type must match "Content-Type" header
+            })
+            const newskillsData = await response.json();
+
+            dispatch({
+                type: "CHANGE_SKILLS",
+                [actionType]: newskillsData
+            });
+        }
+        addSkills()
+
+    };
+    const deleteSkillsData = e => {
+        const actionType = e.target.name;
+
+        const latestSkillsDataId = state.skills[state.skills.length - 1].skillsId;
+        async function deleteSkills() {
+            const skillsUrl = `https://localhost:44318/api/skills/${latestSkillsDataId}`;
+            const response = await fetch(skillsUrl, {
+                method: 'DELETE',
+                mode: 'cors', // no-cors, *cors, same-origin
+                cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+                credentials: 'same-origin', // include, *same-origin, omit
+                headers: {
+                    'Content-Type': 'application/json'
+                    // 'Content-Type': 'application/x-www-form-urlencoded',
+                },
+
+            })
+            const skillsData = await response.json();
+
+            dispatch({
+                type: "CHANGE_SKILLS",
+                [actionType]: skillsData
+            });
+        }
+        deleteSkills();
+
+    };
+
+    return (
+        <div className="edit-input__work">
+            <label>
+                <input
+
+                    onChange={useDispatch}
+                    onBlur={saveResumeToDb}
+                    type="text"
+                    name="skillsTitle"
+                    className="edit-input__title"
+                    value={state.skillsTitle}
+                />
+            </label>
+
+            <ul>{ListItem}</ul>
+            <button
+                onClick={addSkillsData}
+                name="skills"
+                className="edit-input__button edit-input__button_add"
+            >
+                +
       </button>
-      {state.skills.length > 1 ? (
-        <button
-          onClick={handleClick}
-          name="link"
-          className="edit-input__button edit-input__button_minus"
-        >
-          -
+            {state.skills.length > 1 ? (
+                <button
+                    onClick={deleteSkillsData}
+                    name="skills"
+                    className="edit-input__button edit-input__button_minus"
+                >
+                    -
         </button>
-      ) : (
-        ""
-      )}
-    </div>
-  );
+            ) : (
+                    ""
+                )}
+        </div>
+    );
 };
 
 export default Skills;
