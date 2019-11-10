@@ -6,40 +6,39 @@ import SelectLayout from "../utils/selectLayout";
 import getActionType from "../utils/getActionType";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
+import ReactDOMServer from "react-dom/server";
 import jsPDF from "jspdf";
+import Resume1 from "./cvLayouts/test";
 import html2canvas from "html2canvas";
 
 //components
 
 const Preview = props => {
-  
-    const [state, dispatch] = useStateValue();
-    const { resumeId } = useParams();
-    console.log(resumeId, "get param");
+  const [state, dispatch] = useStateValue();
+  const { resumeId } = useParams();
+  console.log(resumeId, "get param");
 
-    useEffect(() => {
-        async function getResumeData() {
-            
-            console.log(resumeId, "preview started");
-            const getResumeUrl = `https://localhost:44318/api/resumedatas/getresumedata/${resumeId}`;
+  useEffect(() => {
+    async function getResumeData() {
+      console.log(resumeId, "preview started");
+      const getResumeUrl = `https://localhost:44318/api/resumedatas/getresumedata/${resumeId}`;
 
-          const response = await fetch(getResumeUrl);
-          const resumeData = await response.json();
-          console.log(resumeData, "from preview");
-          //add resume info to state
-            dispatch({
-              type: "CHANGE_RESUME",
-                all: resumeData
-           });
-          
-      }
-      getResumeData()
-    
-    
+      const response = await fetch(getResumeUrl);
+      const resumeData = await response.json();
+      console.log(resumeData, "from preview");
+      //add resume info to state
+      dispatch({
+        type: "CHANGE_RESUME",
+        all: resumeData
+      });
+    }
+    getResumeData();
   }, []);
 
   const donwloadResume = e => {
-    window.print();
+    const html = ReactDOMServer.renderToString(<Resume1 st={state} />);
+
+    //window.print();
 
     // const filename = "resume.pdf";
     // html2canvas(document.querySelector(".cv"), { scale: 1 }).then(canvas => {
@@ -47,15 +46,29 @@ const Preview = props => {
     //   pdf.addImage(canvas.toDataURL("image/png"), "PNG", 0, 0, 211, 298);
     //   pdf.save(filename);
     // });
+    async function downloadData() {
+      const downloadUrl = `https://localhost:44318/api/download/${resumeId}`;
+      const response = await fetch(downloadUrl);
+      const downloadData = await response;
+      console.log(downloadData, "from preview");
+    }
+    downloadData();
   };
 
-    const changeLayout = e => {
-        dispatch({
-            type: "CHANGE_LAYOUT",
-            layout: e.target.value
-        })
+  const getFile = () => {
+    return {
+      getUrl: `https://localhost:44318/api/resumedatas/getresumedata/${resumeId}`,
+      saveAsFileName: "newFile"
     };
-    console.log(state, "from state");
+  };
+
+  const changeLayout = e => {
+    dispatch({
+      type: "CHANGE_LAYOUT",
+      layout: e.target.value
+    });
+  };
+  console.log(state, "from state");
 
   return (
     <div className="preview">
@@ -76,9 +89,15 @@ const Preview = props => {
           <option value="resume4">Pori</option>
         </select>
         <button onClick={donwloadResume}>Download Pdf</button>
-          </div>
-          {state.resumeId == resumeId ? <div className="preview-container">{SelectLayout(state.layout)}</div> : "" }
-     
+        <a href={`https://localhost:44318/api/download/${resumeId}`} download>
+          Download from server
+        </a>
+      </div>
+      {state.resumeId == resumeId ? (
+        <div className="preview-container">{SelectLayout(state.layout)}</div>
+      ) : (
+        ""
+      )}
     </div>
   );
 };

@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import ProfilePicture from "../../img/artturi19.png";
 
 const Resume1 = props => {
-  const [state] = useStateValue();
+  const state = props.st;
   console.log(state.profile, "from resum1");
 
   const ListItem = state.links.map((item, index) => {
