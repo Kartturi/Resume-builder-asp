@@ -5,7 +5,7 @@ import ProfilePicture from "../../img/artturi19.png";
 
 const Resume1 = props => {
   const state = props.st;
-  console.log(state.profile, "from resum1");
+  
 
   const ListItem = state.links.map((item, index) => {
     return <li key={index}>{item.name}</li>;

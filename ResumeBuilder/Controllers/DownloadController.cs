@@ -19,14 +19,14 @@ namespace ResumeBuilder.Controllers
     {
 
         //api/init/test
-        [HttpGet("{id}")]
-        public FileResult GetHTMLPageAsPDF(int id)
+        [HttpGet]
+        public string GetHTMLPageAsPDF([FromBody] string result)
         {
             var getHTML = new CreateResumeHtml();
             var Renderer = new IronPdf.HtmlToPdf();
-            var PDF = Renderer.RenderHtmlAsPdf(getHTML.getReactHtml(id, 0));
+            var PDF = Renderer.RenderHtmlAsPdf(result);
             //PDF.SaveAs("wikipedia.pdf"); ;
-            return File(PDF.BinaryData, "application/pdf;");
+            return "asd";
 
             
         }

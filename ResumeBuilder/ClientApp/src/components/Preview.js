@@ -37,7 +37,7 @@ const Preview = props => {
 
   const donwloadResume = e => {
     const html = ReactDOMServer.renderToString(<Resume1 st={state} />);
-
+    console.log(html);
     //window.print();
 
     // const filename = "resume.pdf";
@@ -48,7 +48,17 @@ const Preview = props => {
     // });
     async function downloadData() {
       const downloadUrl = `https://localhost:44318/api/download/${resumeId}`;
-      const response = await fetch(downloadUrl);
+      const response = await fetch(downloadUrl, {
+        method: "POST",
+        mode: "cors", // no-cors, *cors, same-origin
+        cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+        credentials: "same-origin", // include, *same-origin, omit
+        headers: {
+          "Content-Type": "html"
+          // 'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: { html } // body data type must match "Content-Type" header
+      });
       const downloadData = await response;
       console.log(downloadData, "from preview");
     }
