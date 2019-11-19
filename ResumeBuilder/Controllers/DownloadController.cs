@@ -25,8 +25,8 @@ namespace ResumeBuilder.Controllers
             var getHTML = new CreateResumeHtml();
             var Renderer = new IronPdf.HtmlToPdf();
             var PDF = Renderer.RenderHtmlAsPdf(result);
-            //PDF.SaveAs("wikipedia.pdf"); ;
-            return "asd";
+            
+            
 
             
         }
